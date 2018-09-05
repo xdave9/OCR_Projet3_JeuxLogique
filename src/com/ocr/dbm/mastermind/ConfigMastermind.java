@@ -1,14 +1,14 @@
 package com.ocr.dbm.mastermind;
 
-import com.ocr.dbm.ConfigJeuCombinaison;
+import com.ocr.dbm.ConfigCombinationsGame;
 
 /**
- * Représente une configuration pour un jeu de combinaisons simple, (jeu du + ou -).
+ * Represent a configuration for a Mastermind game.
  */
-public interface ConfigMastermind extends ConfigJeuCombinaison {
+public interface ConfigMastermind extends ConfigCombinationsGame {
 
     /**
-     * @return Nombre de chiffre utilisable pour une case de la combinaison
+     * @return Number of numerals available for one slot in a combination
      */
-    int getNbChiffresUtilisable();
+    int getNumberOfAvailableNumerals();
 }

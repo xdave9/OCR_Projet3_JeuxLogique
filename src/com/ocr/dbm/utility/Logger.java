@@ -1,46 +1,46 @@
 package com.ocr.dbm.utility;
 
 /**
- * Classe de log classique utilisant Apache Log4j 2
+ * Utility class for classic logging messages using Apache Log4j 2
  */
 public final class Logger {
     private Logger() {}
 
     /**
-     * Envoie un message en mode Debug
-     * @param p_message Le message à envoyer
+     * Send a debug logging message
+     * @param p_message Message to send
      */
     public static void debug(String p_message) {
         // TODO : implement
     }
 
     /**
-     * Envoie un message en mode Error
-     * @param p_message Le message à envoyer
+     * Send an error logging message
+     * @param p_message Message to send
      */
     public static void error(String p_message) {
         // TODO : implement
     }
 
     /**
-     * Envoie un message en mode Info
-     * @param p_message Le message à envoyer
+     * Send an info logging message
+     * @param p_message Message to send
      */
     public static void info(String p_message) {
         // TODO : implement
     }
 
     /**
-     * Envoie un message en mode Verbose
-     * @param p_message Le message à envoyer
+     * Send a verbose logging message
+     * @param p_message Message to send
      */
     public static void verbose(String p_message) {
         // TODO : implement
     }
 
     /**
-     * Envoie un message en mode Warn
-     * @param p_message Le message à envoyer
+     * Send a warn logging message
+     * @param p_message Message to send
      */
     public static void warn(String p_message) {
         // TODO : implement
