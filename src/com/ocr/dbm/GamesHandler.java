@@ -1,5 +1,6 @@
 package com.ocr.dbm;
 
+import com.ocr.dbm.combinationsgame.AICombinationsGame;
 import com.ocr.dbm.combinationsgame.CombinationsGame;
 import com.ocr.dbm.combinationsgame.mastermind.ConfigMastermind;
 import com.ocr.dbm.combinationsgame.mastermind.Mastermind;
@@ -7,21 +8,22 @@ import com.ocr.dbm.combinationsgame.simplecombinationsgame.ConfigSimpleCombinati
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.SimpleCombinationGame;
 import com.ocr.dbm.utility.Global;
 
-import java.io.Console;
-
 /**
  * Singleton class for combination games handling.
  */
 public class GamesHandler {
+    // FIXME : Fix errors here! (Because players notion has been added)
+    // TODO : Finalize this class
 
     private static GamesHandler m_instance = new GamesHandler();
     private GamesHandler() {
-        // TODO : TESTER SI ON EST EN MODE DÉVELOPPEUR (VIA LES PARAMÈTRES DONNÉS AU PROGRAMME)
+        m_developerMode = Main.getArgs()[0] == "-d";
     }
 
     private CombinationsGame m_game;
     private GameMode m_gameMode;
     private boolean m_developerMode;
+    private AICombinationsGame m_ai;
 
     public static GamesHandler getInstance() {
         return m_instance;
@@ -38,9 +40,9 @@ public class GamesHandler {
         int gameIndex = Global.readInt(" --> ", 1, 2);
 
         switch (gameIndex) {
-            case 1: m_game = new SimpleCombinationGame(readSimpleCombinationGameConfig(), m_developerMode);
+            case 1: m_game = new SimpleCombinationGame(new ConfigSimpleCombinationsGame(), m_developerMode);
                 break;
-            case 2: m_game = new Mastermind(readMasterMindConfig(), m_developerMode);
+            case 2: m_game = new Mastermind(new ConfigMastermind(), m_developerMode);
                 break;
         }
     }
@@ -62,26 +64,38 @@ public class GamesHandler {
 
     /**
      * Run the selected game.
-     * @throws IllegalStateException thrown if there's no game or mode selected. (askWhichGame and askGameMode should
+     * @throws IllegalStateException thrown if there's no game or mode selected. (askWhichGame() and askGameMode() should
      *                               normally be called first)
      */
     public void runGame() {
-        // TODO
-    }
+        if (m_game == null || m_gameMode == null) {
+            throw new IllegalStateException("Game is not initialized properly."
+                    + Global.NEW_LINE + " askWhichGame() and askGameMode() should be called first.");
+        }
 
-    /**
-     * Read, in configuration file, configuration for a simple combination game
-     * @return Configuration for this game
-     */
-    private ConfigSimpleCombinationsGame readSimpleCombinationGameConfig() {
-        // TODO
-    }
+        String playerName = Global.readString("What's your name? ");
 
-    /**
-     * Read, in configuration file, configuration for a mastermind game
-     * @return Configuration for this game
-     */
-    private ConfigMastermind readMasterMindConfig() {
-        // TODO
+        switch (m_gameMode) {
+            case OFFENSIVE:
+                m_game.newGame(
+                        m_ai.generateDefensiveCombination(),
+                        "AI",
+                        playerName);
+            break;
+            case DEFENSIVE:
+                m_game.newGame(
+                        Global.readString("Your combination: ", m_game.getCombinationRegex()),
+                        playerName,
+                        "AI");
+                break;
+            case DUEL:
+
+        }
+
+        if (m_developerMode) {
+            System.out.println(String.format("(Secret combination : %s)", m_game.getDefensiveCombination()));
+        }
+
+        // TODO : Start game
     }
 }
