@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e7906d3f-c3bc-4d63-b621-4f3b2de9ff6f" name="Default Changelist" comment="Configurations files for game and logs done, GameMode and a GameHandler been added.&#10;Issues: Need to finalize GameHandler, and fix CombinationsGame and subclasses">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/log4j_core_2_11_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/config.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/log4j2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/AICombinationsGame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/ConfigCombinationsGame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/Player.java" afterDir="false" />
+    <list default="true" id="e7906d3f-c3bc-4d63-b621-4f3b2de9ff6f" name="Default Changelist" comment="Configurations files for game and logs done, GameMode and a GameHandler been added.&#10;Issues: Need to finalize GameHandler, and fix CombinationsGame and subclasses.&#10;Some TODO and FIXME to do">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCR_Projet3_JeuxLogique.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OCR_Projet3_JeuxLogique.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/ocr/dbm/GamesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/ocr/dbm/GamesHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/ocr/dbm/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/ocr/dbm/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/ocr/dbm/utility/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/ocr/dbm/utility/Logger.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -67,16 +57,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="51" />
-          <entry key="java" value="14435" />
+          <entry key="java" value="14479" />
           <entry key="properties" value="284" />
-          <entry key="txt" value="349" />
+          <entry key="txt" value="377" />
           <entry key="xml" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="14435" />
-          <entry key="PLAIN_TEXT" value="400" />
+          <entry key="JAVA" value="14479" />
+          <entry key="PLAIN_TEXT" value="428" />
           <entry key="Properties" value="284" />
           <entry key="XML" value="5" />
         </counts>
@@ -102,11 +92,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/ConfigCombinationsGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="533">
-              <caret line="53" column="15" selection-start-line="53" selection-start-column="15" selection-end-line="53" selection-end-column="15" />
+            <state relative-caret-position="155">
+              <caret line="53" column="39" lean-forward="true" selection-start-line="53" selection-end-line="54" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -117,8 +107,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="51">
+              <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
               <folding>
                 <element signature="e#161#162#0" expanded="true" />
                 <element signature="e#190#191#0" expanded="true" />
@@ -141,11 +131,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/GamesHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="15" column="22" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="22" />
+            <state relative-caret-position="1598">
+              <caret line="98" column="28" selection-start-line="98" selection-start-column="28" selection-end-line="98" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -156,8 +146,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/AICombinationsGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="71" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="71" />
+            <state relative-caret-position="119">
+              <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -250,16 +240,16 @@
         <option value="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/mastermind/ConfigMastermind.java" />
         <option value="$PROJECT_DIR$/resources/config.properties" />
         <option value="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/simplecombinationsgame/ConfigSimpleCombinationsGame.java" />
-        <option value="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/AICombinationsGame.java" />
         <option value="$PROJECT_DIR$/src/com/ocr/dbm/utility/Global.java" />
         <option value="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/Player.java" />
         <option value="$PROJECT_DIR$/resources/log4j2.xml" />
         <option value="$PROJECT_DIR$/src/com/ocr/dbm/utility/Logger.java" />
-        <option value="$PROJECT_DIR$/src/com/ocr/dbm/Main.java" />
         <option value="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/mastermind/Mastermind.java" />
         <option value="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/CombinationsGame.java" />
-        <option value="$PROJECT_DIR$/src/com/ocr/dbm/GamesHandler.java" />
         <option value="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/simplecombinationsgame/SimpleCombinationGame.java" />
+        <option value="$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/AICombinationsGame.java" />
+        <option value="$PROJECT_DIR$/src/com/ocr/dbm/GamesHandler.java" />
+        <option value="$PROJECT_DIR$/src/com/ocr/dbm/Main.java" />
       </list>
     </option>
   </component>
@@ -362,7 +352,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538099517589" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538100584511" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
@@ -437,7 +427,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538028817192</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Configurations files for game and logs done, GameMode and a GameHandler been added.&#10;Issues: Need to finalize GameHandler, and fix CombinationsGame and subclasses.&#10;Some TODO and FIXME to do">
+      <created>1538100474667</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1538100474667</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -450,10 +447,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1616" height="876" extended-state="0" />
+    <frame x="-8" y="0" width="1616" height="876" extended-state="1" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4978355" visible="true" weight="0.27249357" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4978355" visible="true" weight="0.27249357" />
       <window_info id="Structure" order="1" sideWeight="0.5021645" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -466,7 +463,7 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.499375" visible="true" weight="0.30862534" />
+      <window_info active="true" anchor="bottom" id="TODO" order="6" sideWeight="0.499375" visible="true" weight="0.30862534" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4993573" weight="0.3773585" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50064266" weight="0.3787062" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32884097" />
@@ -490,7 +487,8 @@
     <MESSAGE value="SimpleCombinationGame done, Mastermind almost done." />
     <MESSAGE value="Configurations files for game and logs done, GameMode and a GameHandler been added.&#10;Issue: Need to finalize GameHandler, and fix CombinationsGame and subclasses" />
     <MESSAGE value="Configurations files for game and logs done, GameMode and a GameHandler been added.&#10;Issues: Need to finalize GameHandler, and fix CombinationsGame and subclasses" />
-    <option name="LAST_COMMIT_MESSAGE" value="Configurations files for game and logs done, GameMode and a GameHandler been added.&#10;Issues: Need to finalize GameHandler, and fix CombinationsGame and subclasses" />
+    <MESSAGE value="Configurations files for game and logs done, GameMode and a GameHandler been added.&#10;Issues: Need to finalize GameHandler, and fix CombinationsGame and subclasses.&#10;Some TODO and FIXME to do" />
+    <option name="LAST_COMMIT_MESSAGE" value="Configurations files for game and logs done, GameMode and a GameHandler been added.&#10;Issues: Need to finalize GameHandler, and fix CombinationsGame and subclasses.&#10;Some TODO and FIXME to do" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.idea/libraries/log4j_core_2_11_1.xml">
@@ -553,13 +551,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/AICombinationsGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="71" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/utility/Logger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -570,33 +561,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-          <folding>
-            <element signature="e#161#162#0" expanded="true" />
-            <element signature="e#190#191#0" expanded="true" />
-            <element signature="e#247#248#0" expanded="true" />
-            <element signature="e#273#274#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/mastermind/ConfigMastermind.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/ConfigCombinationsGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="53" column="15" selection-start-line="53" selection-start-column="15" selection-end-line="53" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -634,10 +602,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/AICombinationsGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/GamesHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="15" column="22" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="22" />
+        <state relative-caret-position="1598">
+          <caret line="98" column="28" selection-start-line="98" selection-start-column="28" selection-end-line="98" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
+          <folding>
+            <element signature="e#161#162#0" expanded="true" />
+            <element signature="e#190#191#0" expanded="true" />
+            <element signature="e#247#248#0" expanded="true" />
+            <element signature="e#273#274#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/ocr/dbm/combinationsgame/ConfigCombinationsGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="53" column="39" lean-forward="true" selection-start-line="53" selection-end-line="54" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
