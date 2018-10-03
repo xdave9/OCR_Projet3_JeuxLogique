@@ -4,8 +4,6 @@ import com.ocr.dbm.GameMode;
 import com.ocr.dbm.combinationsgame.CombinationsGame;
 
 public class SimpleCombinationGame extends CombinationsGame {
-    // FIXME : Fix errors here! (Because players notion has been added)
-
     private ConfigSimpleCombinationsGame m_config;
 
     /**
@@ -26,11 +24,13 @@ public class SimpleCombinationGame extends CombinationsGame {
             throw new IllegalArgumentException("p_combination is invalid combination.");
         }
 
+        String defensiveCombination = getOtherPlayer().getCombination();
+
         StringBuilder hintBuilder = new StringBuilder(p_combination.length());
 
         for (int i = 0; i < p_combination.length(); i++) {
             // One digit in the combination of the defensive player, and the offensive player :
-            int digitDefensiveComb = Character.getNumericValue(m_combination.charAt(i));
+            int digitDefensiveComb = Character.getNumericValue(defensiveCombination.charAt(i));
             int digitOffensiveComb = Character.getNumericValue(p_combination.charAt(i));
 
             hintBuilder.append(
