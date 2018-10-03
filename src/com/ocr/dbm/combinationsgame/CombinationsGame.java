@@ -6,10 +6,8 @@ import com.ocr.dbm.GameMode;
  * Abstract class representing a combination game
  */
 public abstract class CombinationsGame {
-    // FIXME : Fix errors here! (Because players notion has been added)
-
     private boolean m_isFinished; // true if the game is finished
-    private String m_winner = null;
+    private Player m_winner = null;
     private int m_playedTries; // Number of played tries in the actual game
     private boolean m_developerMode; // Should this game be in developer mode ?
     private ConfigCombinationsGame m_config;
@@ -17,7 +15,7 @@ public abstract class CombinationsGame {
 
     protected Player m_player1;
     protected Player m_player2;
-
+    protected Player m_currentPlayer;
 
     /**
      * @param p_config A configuration for the game
@@ -62,6 +60,8 @@ public abstract class CombinationsGame {
         m_player2 = p_player2;
         m_isFinished = false;
         m_playedTries = 0;
+
+        m_currentPlayer = (m_gameMode == GameMode.DUEL || m_gameMode == GameMode.OFFENSIVE) ? m_player1 : m_player2;
     }
 
     /**
@@ -81,24 +81,46 @@ public abstract class CombinationsGame {
         }
 
         if (isRightCombination(p_combination)) {
-            m_winner = m_offensivePlayer;
+            m_winner = m_currentPlayer;
             m_isFinished = true;
         }
         else {
             m_playedTries++;
 
             if (m_playedTries >= m_config.getMaxPossibleTries()) {
-                m_winner = m_defensivePlayer;
+                m_winner = getOtherPlayer();
                 m_isFinished = true;
             }
         }
 
         if (m_isFinished) {
-            return "Winner is " + m_winner + "!";
+            return "Winner is " + m_winner.getName() + "!";
         }
         else {
             return "Proposition : " + p_combination + " -> Response : " + getHint(p_combination);
         }
+    }
+
+    /**
+     * Update current player, game mode is considered (it will switch the current player
+     * to the other player, or not, depending of game mode).
+     */
+    private void updateCurrentPlayer() {
+        if (m_gameMode == GameMode.DUEL) {
+            m_currentPlayer = getOtherPlayer();
+        }
+    }
+
+    /**
+     * @return The player that is not the current player
+     * @throws IllegalStateException thrown if current player is null
+     */
+    private Player getOtherPlayer() throws IllegalStateException {
+        if (m_currentPlayer == null) {
+            throw new IllegalStateException("m_currentPlayer can't be null, maybe game as not been initialized yet ?");
+        }
+
+        return (m_currentPlayer == m_player1) ? m_player2 : m_player1;
     }
 
     /**
@@ -123,9 +145,14 @@ public abstract class CombinationsGame {
      */
     public abstract String getHint(String p_combination) throws IllegalArgumentException;
 
-    // true if p_combination is equals to the defensive player combination :
+    /**
+     * @param p_combination Combination to test
+     * @return true if p_combination is equals to the defensive player combination
+     */
     private boolean isRightCombination(String p_combination) {
-        return m_combination.equals(p_combination);
+        String defensiveCombination = getOtherPlayer().getCombination();
+
+        return defensiveCombination.equals(p_combination);
     }
 
     /**
@@ -136,9 +163,10 @@ public abstract class CombinationsGame {
     }
 
     /**
-     * @return Combination of defensive player
+     * @param p_index Index of the player to return (index starting at 0)
+     * @return Player at given index
      */
-    public String getDefensiveCombination() {
-        return m_combination;
+    public Player getPlayer(int p_index) {
+        return (p_index == 0) ? m_player1 : m_player2;
     }
 }

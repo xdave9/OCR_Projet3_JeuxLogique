@@ -8,7 +8,7 @@ public class Player {
     private String m_combination; // Defensive combination; can be null if this is only an offensive player
 
     public Player(String p_name, String p_combination) {
-        m_name= p_name;
+        m_name = p_name;
         m_combination = p_combination;
     }
 

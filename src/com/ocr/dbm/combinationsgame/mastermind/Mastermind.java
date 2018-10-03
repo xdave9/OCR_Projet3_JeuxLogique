@@ -2,6 +2,9 @@ package com.ocr.dbm.combinationsgame.mastermind;
 
 import com.ocr.dbm.combinationsgame.CombinationsGame;
 
+/**
+ * Represent a Mastermind game, with player.
+ */
 public class Mastermind extends CombinationsGame {
     // FIXME : Fix errors here! (Because players notion has been added)
 
