@@ -13,5 +13,9 @@ public class Main {
 
     public static void main(String[] args) {
 	    m_args = args;
+
+	    GamesHandler.getInstance().askWhichGame();
+	    GamesHandler.getInstance().startNewGame();
+	    GamesHandler.getInstance().runGame();
     }
 }

@@ -51,7 +51,6 @@ public abstract class ConfigCombinationsGame {
             e.printStackTrace();
         }
         catch (NumberFormatException e) {
-            // TODO : un log avec log4j
         }
         finally {
             if (inputFile != null) {

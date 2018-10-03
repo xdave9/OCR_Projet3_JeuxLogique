@@ -1,6 +1,7 @@
 package com.ocr.dbm.utility;
 
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 public final class Global {
@@ -90,5 +91,16 @@ public final class Global {
     public static void waitForNewLine() {
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
+    }
+
+    /**
+     * Generate random unsigned integer between a minimum (inclusive) and maximum (inclusive)
+     * @param p_min Minimum
+     * @param p_max Maximum
+     * @return Random number between a minimum (inclusive) and maximum (inclusive)
+     */
+    public static int generateRandom(int p_min, int p_max) {
+        Random rn = new Random();
+        return p_min + rn.nextInt(p_max - p_min + 1);
     }
 }

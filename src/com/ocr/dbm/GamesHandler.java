@@ -48,12 +48,14 @@ public class GamesHandler {
 
         switch (gameIndex) {
             case 1:
-                m_game = new SimpleCombinationGame(new ConfigSimpleCombinationsGame(), askGameMode(), m_developerMode);
-                m_ai = new AISimpleCombinationsGame();
+                ConfigSimpleCombinationsGame configSimple = new ConfigSimpleCombinationsGame();
+                m_game = new SimpleCombinationGame(configSimple, askGameMode(), m_developerMode);
+                m_ai = new AISimpleCombinationsGame(configSimple);
                 break;
             case 2:
-                m_game = new Mastermind(new ConfigMastermind(), askGameMode(), m_developerMode);
-                m_ai = new AIMastermind();
+                ConfigMastermind configMasterMind = new ConfigMastermind();
+                m_game = new Mastermind(configMasterMind, askGameMode(), m_developerMode);
+                m_ai = new AIMastermind(configMasterMind);
                 break;
         }
     }

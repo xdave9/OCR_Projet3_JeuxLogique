@@ -4,9 +4,6 @@ package com.ocr.dbm.combinationsgame;
  * An AI for a combinations game, it try to find the right combination
  */
 public abstract class AICombinationsGame {
-    // TODO : Finalize this class
-    // TODO : Create subclasses
-
     /**
      * @return A random combination for a game
      */

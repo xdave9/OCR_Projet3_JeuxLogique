@@ -1,6 +1,7 @@
 package com.ocr.dbm.combinationsgame;
 
 import com.ocr.dbm.GameMode;
+import com.ocr.dbm.utility.Logger;
 
 /**
  * Abstract class representing a combination game
@@ -45,16 +46,25 @@ public abstract class CombinationsGame {
      */
     public void newGame(Player p_player1, Player p_player2)
             throws IllegalArgumentException {
+        Logger.info("Stepping into CombinationsGame.newGame(Player, Player)");
+        Logger.info(String.format("p_player1 :%s    p_player2 :%s", p_player1, p_player2));
+
         if (p_player1 == null || p_player2 == null) {
-            throw new NullPointerException("players can't be null");
+            String message = "players can't be null";
+            Logger.error(message);
+            throw new NullPointerException(message);
         }
 
         if (!isValidCombination(p_player1.getCombination())) {
-            throw new IllegalArgumentException(("Player one combination is invalid for this game"));
+            String message = "Player one combination is invalid for this game";
+            Logger.error(message);
+            throw new IllegalArgumentException(message);
         }
 
         if (!isValidCombination(p_player2.getCombination())) {
-            throw new IllegalArgumentException(("Player two combination is invalid for this game"));
+            String message = "Player two combination is invalid for this game";
+            Logger.error(message);
+            throw new IllegalArgumentException(message);
         }
 
         m_player1 = p_player1;
@@ -64,6 +74,7 @@ public abstract class CombinationsGame {
         m_playedTries = 0;
 
         m_currentPlayer = (m_gameMode == GameMode.DUEL || m_gameMode == GameMode.OFFENSIVE) ? m_player1 : m_player2;
+        Logger.info(String.format("m_currentPlayer :%s", m_currentPlayer));
     }
 
     /**
@@ -74,12 +85,18 @@ public abstract class CombinationsGame {
      * @return A sentence representing the game status after this try (A hint for the offensive player, or a winner)
      */
     public String playATry(String p_combination) throws IllegalArgumentException {
+        Logger.info("Stepping into CombinationsGame.playATry(String), p_combination :" + p_combination);
+
         if (p_combination.isEmpty()) {
-            throw new IllegalArgumentException("p_combination can't be empty");
+            String message = "p_combination can't be empty";
+            Logger.error(message);
+            throw new IllegalArgumentException(message);
         }
 
         if (m_isFinished) {
-            throw new GameNotRunningException("Can't play a try when the game is finished or not started");
+            String message = "Can't play a try when the game is finished or not started";
+            Logger.error(message);
+            throw new GameNotRunningException(message);
         }
 
         if (isRightCombination(p_combination)) {
@@ -95,13 +112,19 @@ public abstract class CombinationsGame {
             }
         }
 
+        String hintOrWinner;
+
         if (m_isFinished) {
-            return "Winner is " + m_winner.getName() + "!";
+            hintOrWinner = "Winner is " + m_winner.getName() + "!";
         }
         else {
             updateCurrentPlayer();
-            return "Proposition : " + p_combination + " -> Response : " + getHint(p_combination);
+            hintOrWinner = "Proposition : " + p_combination + " -> Response : " + getHint(p_combination);
         }
+
+        Logger.info("Returning :" + hintOrWinner);
+
+        return hintOrWinner;
     }
 
     /**
@@ -109,9 +132,13 @@ public abstract class CombinationsGame {
      * to the other player, or not, depending of game mode).
      */
     private void updateCurrentPlayer() {
+        Logger.info("Stepping into CombinationsGame.updateCurrentPlayer()");
+
         if (m_gameMode == GameMode.DUEL) {
             m_currentPlayer = getOtherPlayer();
         }
+
+        Logger.info(String.format("m_currentPlayer updated :", m_currentPlayer));
     }
 
     /**
@@ -127,7 +154,9 @@ public abstract class CombinationsGame {
      */
     protected Player getOtherPlayer() throws IllegalStateException {
         if (m_currentPlayer == null) {
-            throw new IllegalStateException("m_currentPlayer can't be null, maybe game as not been initialized yet ?");
+            String message = "m_currentPlayer can't be null, maybe game as not been initialized yet ?";
+            Logger.error(message);
+            throw new IllegalStateException(message);
         }
 
         return (m_currentPlayer == m_player1) ? m_player2 : m_player1;
