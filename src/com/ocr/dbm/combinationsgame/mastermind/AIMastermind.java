@@ -9,9 +9,13 @@ public class AIMastermind extends AICombinationsGame {
 
     /**
      * @param p_config A Mastermind configuration
+     * @param p_hintParser Hint parser to associate
      */
-    public AIMastermind(ConfigMastermind p_config) {
-        Logger.info(String.format("Creating instance of AIMastermind, p_config :%s", p_config));
+    public AIMastermind(ConfigMastermind p_config, AIHintParserMastermind p_hintParser) {
+        super(p_hintParser);
+
+        Logger.info(String.format("Creating instance of AIMastermind, p_config :%s  p_hintParser :%s",
+                p_config, p_hintParser));
 
         m_config = p_config;
     }

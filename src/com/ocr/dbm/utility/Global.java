@@ -15,6 +15,23 @@ public final class Global {
     public static final int MASTERMIND_MIN_AVAILABLE_NUMERALS = 4;
     public static final int MASTERMIND_MAX_AVAILABLE_NUMERALS = 10;
 
+    // Available attributes that can be found with AIHintParser :
+    //
+    /**
+     * Number of existing digits
+     */
+    public static final String MASTERMIND_EXISTING_ATTR = " Present";
+
+    /**
+     * Number of well put digits
+     */
+    public static final String MASTERMIND_WELL_PUT_ATTR = " Well put";
+
+    /**
+     * A hint like -=+=
+     */
+    public static final String SIMPLE_COMBINATION_HINT_ATTR = null;
+
     /**
      * Ask user, in console, for an integer between a minimum and a maximum
      * @param p_question Question to ask to user

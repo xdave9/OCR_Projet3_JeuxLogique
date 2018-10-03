@@ -75,7 +75,7 @@ public class Mastermind extends CombinationsGame {
         StringBuilder hintBuilder = new StringBuilder();
 
         if (hasExistingDigits) {
-            hintBuilder.append(existingDigitCount + " existing");
+            hintBuilder.append(existingDigitCount + Global.MASTERMIND_EXISTING_ATTR);
         }
 
         if (hasWellPutDigit) {
@@ -83,7 +83,7 @@ public class Mastermind extends CombinationsGame {
                 hintBuilder.append(", ");
             }
 
-            hintBuilder.append(wellPutDigitCount + " well put");
+            hintBuilder.append(wellPutDigitCount + Global.MASTERMIND_WELL_PUT_ATTR);
         }
 
         Logger.info(String.format("hasExistingDigits :%s", hasExistingDigits));

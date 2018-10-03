@@ -190,7 +190,6 @@ public abstract class CombinationsGame {
      */
     private boolean isRightCombination(String p_combination) {
         String defensiveCombination = getOtherPlayer().getCombination();
-
         return defensiveCombination.equals(p_combination);
     }
 
