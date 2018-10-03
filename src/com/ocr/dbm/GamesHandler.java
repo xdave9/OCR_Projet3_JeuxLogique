@@ -2,6 +2,7 @@ package com.ocr.dbm;
 
 import com.ocr.dbm.combinationsgame.AICombinationsGame;
 import com.ocr.dbm.combinationsgame.CombinationsGame;
+import com.ocr.dbm.combinationsgame.Player;
 import com.ocr.dbm.combinationsgame.mastermind.ConfigMastermind;
 import com.ocr.dbm.combinationsgame.mastermind.Mastermind;
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.ConfigSimpleCombinationsGame;
@@ -12,7 +13,6 @@ import com.ocr.dbm.utility.Global;
  * Singleton class for combination games handling.
  */
 public class GamesHandler {
-    // FIXME : Fix errors here! (Because players notion has been added)
     // TODO : Finalize this class
 
     private static GamesHandler m_instance = new GamesHandler();
@@ -40,17 +40,18 @@ public class GamesHandler {
         int gameIndex = Global.readInt(" --> ", 1, 2);
 
         switch (gameIndex) {
-            case 1: m_game = new SimpleCombinationGame(new ConfigSimpleCombinationsGame(), m_developerMode);
+            case 1: m_game = new SimpleCombinationGame(new ConfigSimpleCombinationsGame(), askGameMode(), m_developerMode);
                 break;
-            case 2: m_game = new Mastermind(new ConfigMastermind(), m_developerMode);
+            case 2: m_game = new Mastermind(new ConfigMastermind(), askGameMode(), m_developerMode);
                 break;
         }
     }
 
     /**
      * Ask to the player which game mode he want to play, for the wanted game.
+     * @return Selected game mode
      */
-    public void askGameMode() {
+    public GameMode askGameMode() {
         System.out.println("Choose a mode : ");
 
         for (int i = 0; i < GameMode.values().length; i++) {
@@ -60,6 +61,8 @@ public class GamesHandler {
         int gameModeIndex = -1 + Global.readInt(" --> ", 1, GameMode.values().length);
 
         m_gameMode = GameMode.values()[gameModeIndex];
+
+        return m_gameMode;
     }
 
     /**
@@ -78,22 +81,37 @@ public class GamesHandler {
         switch (m_gameMode) {
             case OFFENSIVE:
                 m_game.newGame(
-                        m_ai.generateDefensiveCombination(),
-                        "AI",
-                        playerName);
+                        new Player(playerName, null),
+                        new Player("AI", m_ai.generateDefensiveCombination()));
             break;
             case DEFENSIVE:
                 m_game.newGame(
-                        Global.readString("Your combination: ", m_game.getCombinationRegex()),
-                        playerName,
-                        "AI");
+                        new Player(playerName, Global.readString("Your combination: ", m_game.getCombinationRegex())),
+                        new Player("AI", null));
                 break;
             case DUEL:
-
+                m_game.newGame(
+                        new Player(playerName, Global.readString("Your combination: ", m_game.getCombinationRegex())),
+                        new Player("AI", m_ai.generateDefensiveCombination()));
+                break;
         }
 
         if (m_developerMode) {
-            System.out.println(String.format("(Secret combination : %s)", m_game.getDefensiveCombination()));
+            StringBuilder message = new StringBuilder();
+            message.append("Game mode : " + m_gameMode.toString() + Global.NEW_LINE);
+
+            Player player1 = m_game.getPlayer(0);
+            Player player2 = m_game.getPlayer(1);
+
+            if (player1.getCombination() != null) {
+                message.append(player1.getName() + " -> " + player1.getCombination() + Global.NEW_LINE);
+            }
+
+            if (player2.getCombination() != null) {
+                message.append(player2.getName() + " -> " + player2.getCombination() + Global.NEW_LINE);
+            }
+
+            System.out.println(message.toString());
         }
 
         // TODO : Start game

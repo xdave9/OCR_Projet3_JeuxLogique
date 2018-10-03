@@ -38,7 +38,7 @@ public abstract class CombinationsGame {
 
     /**
      * Start a new game
-     * @param p_player1 Player one
+     * @param p_player1 Player one (will be the player who's starting, in duel mode)
      * @param p_player2 Player two
      * @throws IllegalArgumentException thrown when a combination associated with a plyer is invalid for this game
      * @throws NullPointerException thrown when p_player1 or p_player2 is null
@@ -167,7 +167,11 @@ public abstract class CombinationsGame {
      * @param p_index Index of the player to return (index starting at 0)
      * @return Player at given index
      */
-    public Player getPlayer(int p_index) {
+    public Player getPlayer(int p_index) throws IndexOutOfBoundsException {
+        if (p_index != 0 && p_index != 1) {
+            throw new IndexOutOfBoundsException("Currently, there's only two players... So must be between 0 and 1");
+        }
+
         return (p_index == 0) ? m_player1 : m_player2;
     }
 }
