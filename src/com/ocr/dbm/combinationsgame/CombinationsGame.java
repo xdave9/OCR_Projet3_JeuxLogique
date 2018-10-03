@@ -82,7 +82,7 @@ public abstract class CombinationsGame {
      * @param p_combination Combination to try
      * @throws IllegalArgumentException thrown when p_combination is not a valid combination for this game
      * @throws GameNotRunningException thrown when game is finished or not started yet
-     * @return A sentence representing the game status after this try (A hint for the offensive player, or a winner)
+     * @return A hint for the offensive player, or a winner
      */
     public String playATry(String p_combination) throws IllegalArgumentException {
         Logger.info("Stepping into CombinationsGame.playATry(String), p_combination :" + p_combination);
@@ -115,11 +115,11 @@ public abstract class CombinationsGame {
         String hintOrWinner;
 
         if (m_isFinished) {
-            hintOrWinner = "Winner is " + m_winner.getName() + "!";
+            hintOrWinner = m_winner.getName();
         }
         else {
             updateCurrentPlayer();
-            hintOrWinner = "Proposition : " + p_combination + " -> Response : " + getHint(p_combination);
+            hintOrWinner = getHint(p_combination);
         }
 
         Logger.info("Returning :" + hintOrWinner);
@@ -152,7 +152,7 @@ public abstract class CombinationsGame {
      * @return The player that is not the current player
      * @throws IllegalStateException thrown if current player is null
      */
-    protected Player getOtherPlayer() throws IllegalStateException {
+    public Player getOtherPlayer() throws IllegalStateException {
         if (m_currentPlayer == null) {
             String message = "m_currentPlayer can't be null, maybe game as not been initialized yet ?";
             Logger.error(message);

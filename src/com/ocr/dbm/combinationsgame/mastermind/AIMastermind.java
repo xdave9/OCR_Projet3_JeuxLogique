@@ -36,9 +36,14 @@ public class AIMastermind extends AICombinationsGame {
     }
 
     @Override
-    public String generateOffensiveCombination(String p_hint) {
+    public String generateOffensiveCombination(String p_previousCombination, String p_hint) {
+        if (p_hint == null || p_previousCombination == null) {
+            return generateDefensiveCombination(); // A random combination...
+        }
+
+        int existingCount = Integer.parseInt(getHintParser().parseHint(p_hint, Global.MASTERMIND_EXISTING_ATTR));
+        int wellPutCount = Integer.parseInt(getHintParser().parseHint(p_hint, Global.MASTERMIND_WELL_PUT_ATTR));
 
         // TODO
-        return null;
     }
 }

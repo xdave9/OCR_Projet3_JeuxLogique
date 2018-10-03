@@ -3,9 +3,11 @@ package com.ocr.dbm;
 import com.ocr.dbm.combinationsgame.AICombinationsGame;
 import com.ocr.dbm.combinationsgame.CombinationsGame;
 import com.ocr.dbm.combinationsgame.Player;
+import com.ocr.dbm.combinationsgame.mastermind.AIHintParserMastermind;
 import com.ocr.dbm.combinationsgame.mastermind.AIMastermind;
 import com.ocr.dbm.combinationsgame.mastermind.ConfigMastermind;
 import com.ocr.dbm.combinationsgame.mastermind.Mastermind;
+import com.ocr.dbm.combinationsgame.simplecombinationsgame.AIHintParserSimple;
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.AISimpleCombinationsGame;
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.ConfigSimpleCombinationsGame;
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.SimpleCombinationGame;
@@ -50,12 +52,12 @@ public class GamesHandler {
             case 1:
                 ConfigSimpleCombinationsGame configSimple = new ConfigSimpleCombinationsGame();
                 m_game = new SimpleCombinationGame(configSimple, askGameMode(), m_developerMode);
-                m_ai = new AISimpleCombinationsGame(configSimple);
+                m_ai = new AISimpleCombinationsGame(configSimple, new AIHintParserSimple());
                 break;
             case 2:
                 ConfigMastermind configMasterMind = new ConfigMastermind();
                 m_game = new Mastermind(configMasterMind, askGameMode(), m_developerMode);
-                m_ai = new AIMastermind(configMasterMind);
+                m_ai = new AIMastermind(configMasterMind, new AIHintParserMastermind());
                 break;
         }
     }
@@ -80,31 +82,30 @@ public class GamesHandler {
 
     /**
      * Start a new game (game and mode should be asked first)
+     * @param p_humanPlayerName Name of the human player
      * @throws IllegalStateException thrown if there's no game or mode selected. (askWhichGame() should
      * normally be called first)
      */
-    public void startNewGame() throws IllegalStateException {
+    public void startNewGame(String p_humanPlayerName) throws IllegalStateException {
         if (m_game == null || m_gameMode == null) {
             throw new IllegalStateException("Game is not initialized properly."
                     + Global.NEW_LINE + " askWhichGame() and askGameMode() should be called first.");
         }
 
-        String playerName = Global.readString("What's your name? ");
-
         switch (m_gameMode) {
             case OFFENSIVE:
                 m_game.newGame(
-                        new Player(playerName, null),
+                        new Player(p_humanPlayerName, null),
                         new Player("AI", m_ai.generateDefensiveCombination()));
                 break;
             case DEFENSIVE:
                 m_game.newGame(
-                        new Player(playerName, Global.readString("Your combination: ", m_game.getCombinationRegex())),
+                        new Player(p_humanPlayerName, Global.readString("Your combination: ", m_game.getCombinationRegex())),
                         new Player("AI", null));
                 break;
             case DUEL:
                 m_game.newGame(
-                        new Player(playerName, Global.readString("Your combination: ", m_game.getCombinationRegex())),
+                        new Player(p_humanPlayerName, Global.readString("Your combination: ", m_game.getCombinationRegex())),
                         new Player("AI", m_ai.generateDefensiveCombination()));
                 break;
         }
@@ -134,20 +135,36 @@ public class GamesHandler {
     public void runGame() {
         // Will be the previous hint given by a try, will be used by the AI :
         String previousHintForAI = null;
+        String previousComb = null; // Previous combination given by AI
 
         // Running game here :
         while (m_game.getWinner() == null) {
             String hint;
+            String offensiveComb;
+            String defensiveComb = m_game.getOtherPlayer().getCombination();
 
             if (m_game.getCurrentPlayer().getName().equals("AI")) {
-                hint = m_game.playATry(m_ai.generateOffensiveCombination(previousHintForAI));
+                offensiveComb = m_ai.generateOffensiveCombination(previousComb, previousHintForAI);
+                hint = m_game.playATry(offensiveComb);
                 previousHintForAI = hint;
+                previousComb = offensiveComb;
             }
             else {
-                hint = m_game.playATry(Global.readString("Combination: ", m_game.getCombinationRegex()));
+                offensiveComb = Global.readString("Combination: ", m_game.getCombinationRegex());
+                hint = m_game.playATry(offensiveComb);
             }
 
-            System.out.println(hint);
+            String gameStatus;
+
+            if (m_game.getWinner() == null) {
+                gameStatus = "Proposition : " + offensiveComb + " -> Response : " + hint;
+            }
+            else {
+                gameStatus = "Winner is " + hint + "!" + Global.NEW_LINE;
+                gameStatus += "Solution : " + defensiveComb;
+            }
+
+            System.out.println(gameStatus);
             Global.waitForNewLine();
         }
     }

@@ -35,8 +35,11 @@ public class AISimpleCombinationsGame extends AICombinationsGame {
     }
 
     @Override
-    public String generateOffensiveCombination(String p_hint) {
+    public String generateOffensiveCombination(String p_previousCombination, String p_hint) {
+        if (p_hint == null || p_previousCombination == null) {
+            return generateDefensiveCombination(); // A random combination...
+        }
+
         // TODO
-        return null;
     }
 }

@@ -8,7 +8,7 @@ public final class Global {
     private Global() {}
 
     /**
-     * Represent a new line independant of OS
+     * Represent a new line independent of OS
      */
     public static final String NEW_LINE = System.getProperty("line.separator");
 

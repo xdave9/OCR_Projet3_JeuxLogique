@@ -17,10 +17,11 @@ public abstract class AICombinationsGame {
 
     /**
      * Try to find the defensive combination, and return it.
+     * @param p_previousCombination Previous combination proposed; or null if there's not
      * @param p_hint Combination returned will be based on this hint; null can be passed if there's no hint yet
      * @return A generated combination
      */
-    public abstract String generateOffensiveCombination(String p_hint);
+    public abstract String generateOffensiveCombination(String p_previousCombination, String p_hint);
 
     /**
      * @return Associated hint parser
