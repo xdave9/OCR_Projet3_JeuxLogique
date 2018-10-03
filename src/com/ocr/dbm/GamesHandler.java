@@ -3,8 +3,10 @@ package com.ocr.dbm;
 import com.ocr.dbm.combinationsgame.AICombinationsGame;
 import com.ocr.dbm.combinationsgame.CombinationsGame;
 import com.ocr.dbm.combinationsgame.Player;
+import com.ocr.dbm.combinationsgame.mastermind.AIMastermind;
 import com.ocr.dbm.combinationsgame.mastermind.ConfigMastermind;
 import com.ocr.dbm.combinationsgame.mastermind.Mastermind;
+import com.ocr.dbm.combinationsgame.simplecombinationsgame.AISimpleCombinationsGame;
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.ConfigSimpleCombinationsGame;
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.SimpleCombinationGame;
 import com.ocr.dbm.utility.Global;
@@ -13,11 +15,16 @@ import com.ocr.dbm.utility.Global;
  * Singleton class for combination games handling.
  */
 public class GamesHandler {
-    // TODO : Finalize this class
-
     private static GamesHandler m_instance = new GamesHandler();
     private GamesHandler() {
-        m_developerMode = Main.getArgs()[0] == "-d";
+        m_developerMode = false;
+
+        for (String arg : Main.getArgs()) {
+            if (arg.equals("-d")) {
+                m_developerMode = true;
+                break;
+            }
+        }
     }
 
     private CombinationsGame m_game;
@@ -30,7 +37,7 @@ public class GamesHandler {
     }
 
     /**
-     * Ask to the player which game he want to play
+     * Ask to the player which game he want to play, game mode is also asked
      */
     public void askWhichGame() {
         System.out.println("What you want to play ?" + Global.NEW_LINE
@@ -40,9 +47,13 @@ public class GamesHandler {
         int gameIndex = Global.readInt(" --> ", 1, 2);
 
         switch (gameIndex) {
-            case 1: m_game = new SimpleCombinationGame(new ConfigSimpleCombinationsGame(), askGameMode(), m_developerMode);
+            case 1:
+                m_game = new SimpleCombinationGame(new ConfigSimpleCombinationsGame(), askGameMode(), m_developerMode);
+                m_ai = new AISimpleCombinationsGame();
                 break;
-            case 2: m_game = new Mastermind(new ConfigMastermind(), askGameMode(), m_developerMode);
+            case 2:
+                m_game = new Mastermind(new ConfigMastermind(), askGameMode(), m_developerMode);
+                m_ai = new AIMastermind();
                 break;
         }
     }
@@ -51,7 +62,7 @@ public class GamesHandler {
      * Ask to the player which game mode he want to play, for the wanted game.
      * @return Selected game mode
      */
-    public GameMode askGameMode() {
+    private GameMode askGameMode() {
         System.out.println("Choose a mode : ");
 
         for (int i = 0; i < GameMode.values().length; i++) {
@@ -66,11 +77,11 @@ public class GamesHandler {
     }
 
     /**
-     * Run the selected game.
-     * @throws IllegalStateException thrown if there's no game or mode selected. (askWhichGame() and askGameMode() should
-     *                               normally be called first)
+     * Start a new game (game and mode should be asked first)
+     * @throws IllegalStateException thrown if there's no game or mode selected. (askWhichGame() should
+     * normally be called first)
      */
-    public void runGame() {
+    public void startNewGame() throws IllegalStateException {
         if (m_game == null || m_gameMode == null) {
             throw new IllegalStateException("Game is not initialized properly."
                     + Global.NEW_LINE + " askWhichGame() and askGameMode() should be called first.");
@@ -83,7 +94,7 @@ public class GamesHandler {
                 m_game.newGame(
                         new Player(playerName, null),
                         new Player("AI", m_ai.generateDefensiveCombination()));
-            break;
+                break;
             case DEFENSIVE:
                 m_game.newGame(
                         new Player(playerName, Global.readString("Your combination: ", m_game.getCombinationRegex())),
@@ -113,7 +124,29 @@ public class GamesHandler {
 
             System.out.println(message.toString());
         }
+    }
 
-        // TODO : Start game
+    /**
+     * Run the selected game.
+     */
+    public void runGame() {
+        // Will be the previous hint given by a try, will be used by the AI :
+        String previousHintForAI = null;
+
+        // Running game here :
+        while (m_game.getWinner() == null) {
+            String hint;
+
+            if (m_game.getCurrentPlayer().getName().equals("AI")) {
+                hint = m_game.playATry(m_ai.generateOffensiveCombination(previousHintForAI));
+                previousHintForAI = hint;
+            }
+            else {
+                hint = m_game.playATry(Global.readString("Combination: ", m_game.getCombinationRegex()));
+            }
+
+            System.out.println(hint);
+            Global.waitForNewLine();
+        }
     }
 }

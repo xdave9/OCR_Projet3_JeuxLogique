@@ -83,4 +83,12 @@ public final class Global {
 
         return response;
     }
+
+    /**
+     * Make console wait for enter to be pressed
+     */
+    public static void waitForNewLine() {
+        Scanner sc = new Scanner(System.in);
+        sc.nextLine();
+    }
 }

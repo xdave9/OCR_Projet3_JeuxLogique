@@ -7,7 +7,7 @@ import com.ocr.dbm.GameMode;
  */
 public abstract class CombinationsGame {
     private boolean m_isFinished; // true if the game is finished
-    private Player m_winner = null;
+    private Player m_winner;
     private int m_playedTries; // Number of played tries in the actual game
     private boolean m_developerMode; // Should this game be in developer mode ?
     private ConfigCombinationsGame m_config;
@@ -60,6 +60,7 @@ public abstract class CombinationsGame {
         m_player1 = p_player1;
         m_player2 = p_player2;
         m_isFinished = false;
+        m_winner = null;
         m_playedTries = 0;
 
         m_currentPlayer = (m_gameMode == GameMode.DUEL || m_gameMode == GameMode.OFFENSIVE) ? m_player1 : m_player2;
@@ -98,6 +99,7 @@ public abstract class CombinationsGame {
             return "Winner is " + m_winner.getName() + "!";
         }
         else {
+            updateCurrentPlayer();
             return "Proposition : " + p_combination + " -> Response : " + getHint(p_combination);
         }
     }
@@ -110,6 +112,13 @@ public abstract class CombinationsGame {
         if (m_gameMode == GameMode.DUEL) {
             m_currentPlayer = getOtherPlayer();
         }
+    }
+
+    /**
+     * @return Current player
+     */
+    public Player getCurrentPlayer() {
+        return m_currentPlayer;
     }
 
     /**
@@ -173,5 +182,12 @@ public abstract class CombinationsGame {
         }
 
         return (p_index == 0) ? m_player1 : m_player2;
+    }
+
+    /**
+     * @return The winner; or null if there's no one yet
+     */
+    public Player getWinner() {
+        return m_winner;
     }
 }
