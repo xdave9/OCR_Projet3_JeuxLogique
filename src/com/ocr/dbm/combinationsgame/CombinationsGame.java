@@ -19,11 +19,12 @@ public abstract class CombinationsGame {
 
     /**
      * @param p_config A configuration for the game
-     * @param p_gameMode Specify a game mode...
+     * @param p_gameMode Game mode for this game
      * @param p_developerMode true if the game should be in developer mode; false otherwise
      * @throws NullPointerException thrown when p_config is null
      */
-    public CombinationsGame(ConfigCombinationsGame p_config, GameMode p_gameMode, boolean p_developerMode) throws NullPointerException {
+    public CombinationsGame(ConfigCombinationsGame p_config, GameMode p_gameMode, boolean p_developerMode)
+            throws NullPointerException {
         if (p_config == null) {
             throw new NullPointerException("p_config can't be null.");
         }
@@ -115,7 +116,7 @@ public abstract class CombinationsGame {
      * @return The player that is not the current player
      * @throws IllegalStateException thrown if current player is null
      */
-    private Player getOtherPlayer() throws IllegalStateException {
+    protected Player getOtherPlayer() throws IllegalStateException {
         if (m_currentPlayer == null) {
             throw new IllegalStateException("m_currentPlayer can't be null, maybe game as not been initialized yet ?");
         }

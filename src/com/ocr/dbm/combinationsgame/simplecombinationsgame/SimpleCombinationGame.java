@@ -1,5 +1,6 @@
 package com.ocr.dbm.combinationsgame.simplecombinationsgame;
 
+import com.ocr.dbm.GameMode;
 import com.ocr.dbm.combinationsgame.CombinationsGame;
 
 public class SimpleCombinationGame extends CombinationsGame {
@@ -9,11 +10,13 @@ public class SimpleCombinationGame extends CombinationsGame {
 
     /**
      * @param p_config A configuration for the game
+     * @param p_gameMode Game mode for this game
      * @param p_developerMode true if the game should be in developer mode; false otherwise
      * @throws NullPointerException thrown when p_config is null
      */
-    public SimpleCombinationGame(ConfigSimpleCombinationsGame p_config, boolean p_developerMode) throws NullPointerException {
-        super(p_config, p_developerMode);
+    public SimpleCombinationGame(ConfigSimpleCombinationsGame p_config, GameMode p_gameMode, boolean p_developerMode)
+            throws NullPointerException {
+        super(p_config, p_gameMode, p_developerMode);
         m_config = p_config;
     }
 
