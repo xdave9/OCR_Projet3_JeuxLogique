@@ -17,10 +17,6 @@ public class ConfigMastermind extends ConfigCombinationsGame {
      * @return Number of numerals available for one slot in a combination
      */
     public int getNumberOfAvailableNumerals() {
-        Logger.info(
-                String.format("Stepping into ConfigMastermind.getNumberOfAvailableNumerals() returning :%d",
-                        m_numberOfAvailableNumerals));
-
         return m_numberOfAvailableNumerals;
     }
 
@@ -38,5 +34,7 @@ public class ConfigMastermind extends ConfigCombinationsGame {
             Logger.error(message);
             throw new InvalidParameterException(String.format(message));
         }
+
+        Logger.info(String.format("m_numberOfAvailableNumerals after init :%d", m_numberOfAvailableNumerals));
     }
 }

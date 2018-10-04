@@ -1,5 +1,7 @@
 package com.ocr.dbm.combinationsgame;
 
+import com.ocr.dbm.utility.Logger;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +37,8 @@ public abstract class ConfigCombinationsGame {
      * Read configuration file (config.properties) to init configurations
      */
     private void readConfigFile() {
+        Logger.info("Stepping into ConfigCombinationsGame.readConfigFile()");
+
         Properties config = new Properties();
         InputStream inputFile = null;
 
@@ -48,19 +52,24 @@ public abstract class ConfigCombinationsGame {
             initAdditionalProperties(config);
         }
         catch (IOException e) {
+            Logger.error(e.getMessage());
             e.printStackTrace();
         }
         catch (NumberFormatException e) {
+            Logger.error(e.getMessage());
         }
         finally {
             if (inputFile != null) {
                 try {
                     inputFile.close();
                 } catch (IOException e) {
+                    Logger.error(e.getMessage());
                     e.printStackTrace();
                 }
             }
         }
+
+        Logger.info("Stepping out of ConfigCombinationsGame.readConfigFile()");
     }
 
     /**

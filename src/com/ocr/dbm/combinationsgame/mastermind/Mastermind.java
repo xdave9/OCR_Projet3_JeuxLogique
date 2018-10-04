@@ -91,19 +91,19 @@ public class Mastermind extends CombinationsGame {
         Logger.info(String.format("existingDigitCount :%d", existingDigitCount));
         Logger.info(String.format("wellPutDigitCount :%d", wellPutDigitCount));
 
-        Logger.info("Returning :" + hintBuilder.toString());
+        Logger.info("Mastermind.getHint(String) returning :" + hintBuilder.toString());
 
         return hintBuilder.toString();
     }
 
     @Override
     public String getCombinationRegex() {
-        Logger.info("Stepping into Mastermind.getCombinationRegex");
+        Logger.info("Stepping into Mastermind.getCombinationRegex()");
 
         String regex = "^[0-" + Integer.toString(m_config.getNumberOfAvailableNumerals() - 1) + "]"
                 + "{" + m_config.getNumberOfSlots() + "}" + "$";
 
-        Logger.info("Returning :" + regex);
+        Logger.info("Mastermind.getCombinationRegex() returning :" + regex);
 
         return regex;
     }

@@ -30,7 +30,7 @@ public class AIMastermind extends AICombinationsGame {
             comb.append(Integer.toString(Global.generateRandom(0, m_config.getNumberOfAvailableNumerals() - 1)));
         }
 
-        Logger.info("Generated combination : " + comb.toString());
+        Logger.info("Stepping into AIMastermind.generateDefensiveCombination() returning :" + comb.toString());
 
         return comb.toString();
     }

@@ -26,8 +26,12 @@ public abstract class CombinationsGame {
      */
     public CombinationsGame(ConfigCombinationsGame p_config, GameMode p_gameMode, boolean p_developerMode)
             throws NullPointerException {
+        Logger.info("Stepping into CombinationsGame constructor");
+
         if (p_config == null) {
-            throw new NullPointerException("p_config can't be null.");
+            String message = "p_config can't be null.";
+            Logger.error(message);
+            throw new NullPointerException(message);
         }
 
         m_config = p_config;
@@ -133,12 +137,13 @@ public abstract class CombinationsGame {
      */
     private void updateCurrentPlayer() {
         Logger.info("Stepping into CombinationsGame.updateCurrentPlayer()");
+        Logger.info(String.format("m_currentPlayer before update :%s", m_currentPlayer));
 
         if (m_gameMode == GameMode.DUEL) {
             m_currentPlayer = getOtherPlayer();
         }
 
-        Logger.info(String.format("m_currentPlayer updated :", m_currentPlayer));
+        Logger.info(String.format("m_currentPlayer updated :%s", m_currentPlayer));
     }
 
     /**
@@ -206,7 +211,9 @@ public abstract class CombinationsGame {
      */
     public Player getPlayer(int p_index) throws IndexOutOfBoundsException {
         if (p_index != 0 && p_index != 1) {
-            throw new IndexOutOfBoundsException("Currently, there's only two players... So must be between 0 and 1");
+            String message = "There's only two players... So index must be between 0 and 1. p_index :" + p_index;
+            Logger.error(message);
+            throw new IndexOutOfBoundsException(message);
         }
 
         return (p_index == 0) ? m_player1 : m_player2;

@@ -21,7 +21,7 @@ public class AISimpleCombinationsGame extends AICombinationsGame {
 
     @Override
     public String generateDefensiveCombination() {
-        Logger.info("Stepping into AISimpleCombinationsGame.generateDefensiveCombination");
+        Logger.info("Stepping into AISimpleCombinationsGame.generateDefensiveCombination()");
 
         StringBuilder comb = new StringBuilder(m_config.getNumberOfSlots());
 
@@ -29,7 +29,7 @@ public class AISimpleCombinationsGame extends AICombinationsGame {
             comb.append(Integer.toString(Global.generateRandom(0, 9)));
         }
 
-        Logger.info("Generated combination : " + comb.toString());
+        Logger.info("AISimpleCombinationsGame.generateDefensiveCombination() returning :" + comb.toString());
 
         return comb.toString();
     }

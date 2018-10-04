@@ -56,17 +56,17 @@ public class SimpleCombinationGame extends CombinationsGame {
             );
         }
 
-        Logger.info("Returning :" + hintBuilder.toString());
+        Logger.info("Mastermind.getHint(String) returning :" + hintBuilder.toString());
 
         return hintBuilder.toString();
     }
 
     @Override
     public String getCombinationRegex() {
+        Logger.info("Stepping into SimpleCombinationGame.getCombinationRegex()");
         String regex = "^[0-9]{" + m_config.getNumberOfSlots() + "}$";
 
-        Logger.info("Returning :" + regex);
-
+        Logger.info("SimpleCombinationGame.getCombinationRegex() returning :" + regex);
         return regex;
     }
 }
