@@ -6,21 +6,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SimpleCombinationGame extends CombinationsGame {
-    private Logger m_logger = LogManager.getLogger(SimpleCombinationGame.class.getName());
-    private ConfigSimpleCombinationsGame m_config;
+    private final Logger m_logger = LogManager.getLogger(SimpleCombinationGame.class.getName());
+    private final ConfigSimpleCombinationsGame m_config;
 
     /**
      * @param p_config A configuration for the game
      * @param p_gameMode Game mode for this game
-     * @param p_developerMode true if the game should be in developer mode; false otherwise
      * @throws NullPointerException thrown when p_config is null
      */
-    public SimpleCombinationGame(ConfigSimpleCombinationsGame p_config, GameMode p_gameMode, boolean p_developerMode)
+    public SimpleCombinationGame(ConfigSimpleCombinationsGame p_config, GameMode p_gameMode)
             throws NullPointerException {
-        super(p_config, p_gameMode, p_developerMode);
+        super(p_config, p_gameMode);
 
         m_logger.traceEntry("SimpleCombinationGame p_config:{}  p_gameMode:{}   p_developerMode:{}",
-                p_config, p_gameMode, p_developerMode);
+                p_config, p_gameMode);
 
         m_config = p_config;
         m_logger.traceExit();

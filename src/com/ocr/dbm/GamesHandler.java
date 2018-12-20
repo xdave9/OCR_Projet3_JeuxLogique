@@ -19,9 +19,10 @@ import org.apache.logging.log4j.Logger;
  * Singleton class for combination games handling.
  */
 public class GamesHandler {
-    private Logger m_logger = LogManager.getLogger(GamesHandler.class.getName());
+    private final Logger m_logger = LogManager.getLogger(GamesHandler.class.getName());
 
-    private static GamesHandler m_instance = new GamesHandler();
+    private static final GamesHandler m_instance = new GamesHandler();
+
     private GamesHandler() {
         m_logger.traceEntry("GamesHandler");
 
@@ -62,12 +63,12 @@ public class GamesHandler {
         switch (gameIndex) {
             case 1:
                 ConfigSimpleCombinationsGame configSimple = new ConfigSimpleCombinationsGame();
-                m_game = new SimpleCombinationGame(configSimple, askGameMode(), m_developerMode);
+                m_game = new SimpleCombinationGame(configSimple, askGameMode());
                 m_ai = new AISimpleCombinationsGame(configSimple, new AIHintParserSimple());
                 break;
             case 2:
                 ConfigMastermind configMasterMind = new ConfigMastermind();
-                m_game = new Mastermind(configMasterMind, askGameMode(), m_developerMode);
+                m_game = new Mastermind(configMasterMind, askGameMode());
                 m_ai = new AIMastermind(configMasterMind, new AIHintParserMastermind());
                 break;
         }
@@ -168,7 +169,8 @@ public class GamesHandler {
             String hint;
             String offensiveComb;
             String defensiveComb = m_game.getOtherPlayer().getCombination();
-            boolean currentPlayerIsAI = m_game.getCurrentPlayer().getName().equals("AI");
+            String currentPlayerName = m_game.getCurrentPlayer().getName();
+            boolean currentPlayerIsAI = currentPlayerName.equals("AI");
 
             m_logger.info("defensiveComb:" + defensiveComb);
 
@@ -199,7 +201,7 @@ public class GamesHandler {
                     hint : "Winner is " + hint + "!" + Global.NEW_LINE;
 
             String gameStatus = String.format("%s Proposition : %s -> Response : %s",
-                                        m_game.getCurrentPlayer().getName(),
+                                        currentPlayerName,
                                         offensiveComb,
                                         response);
 

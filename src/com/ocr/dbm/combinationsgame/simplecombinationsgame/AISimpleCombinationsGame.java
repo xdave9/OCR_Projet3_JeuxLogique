@@ -1,14 +1,13 @@
 package com.ocr.dbm.combinationsgame.simplecombinationsgame;
 
 import com.ocr.dbm.combinationsgame.AICombinationsGame;
-import com.ocr.dbm.combinationsgame.SingleTry;
 import com.ocr.dbm.utility.Global;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AISimpleCombinationsGame extends AICombinationsGame {
-    private Logger m_logger = LogManager.getLogger(AISimpleCombinationsGame.class.getName());
-    private ConfigSimpleCombinationsGame m_config;
+    private final Logger m_logger = LogManager.getLogger(AISimpleCombinationsGame.class.getName());
+    private final ConfigSimpleCombinationsGame m_config;
 
     /**
      * @param p_config A simple combination game configuration
@@ -57,15 +56,14 @@ public class AISimpleCombinationsGame extends AICombinationsGame {
                 comb.append("5");
             }
 
-            m_previousTries.add(new SingleTry(comb.toString()));
+            m_previousTries.add(comb.toString());
             return comb.toString();
         }
 
         String hint = getHintParser().parseHint(p_hint, null);
         int previousTryIndex = m_previousTries.size() - 1;
 
-        m_previousTries.get(previousTryIndex).setGivenHint(hint);
-        String previousComb = m_previousTries.get(previousTryIndex).getCombination();
+        String previousComb = m_previousTries.get(previousTryIndex);
 
         switch (m_previousTries.size()) {
             case 1:
@@ -126,7 +124,7 @@ public class AISimpleCombinationsGame extends AICombinationsGame {
                 break;
         }
 
-        m_previousTries.add(new SingleTry(comb.toString()));
+        m_previousTries.add(comb.toString());
 
         return m_logger.traceExit(comb.toString());
     }

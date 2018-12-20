@@ -13,12 +13,12 @@ import java.util.Properties;
  * Represent a configuration for a combinations game.
  */
 public abstract class ConfigCombinationsGame {
-    private Logger m_logger = LogManager.getLogger(ConfigCombinationsGame.class.getName());
+    private final Logger m_logger = LogManager.getLogger(ConfigCombinationsGame.class.getName());
 
     private int m_maxPossibleTries; // Maximum of possible tries before the game end
     private int m_numberOfSlots; // Number of slots for the combination
 
-    public ConfigCombinationsGame() {
+    protected ConfigCombinationsGame() {
         readConfigFile();
     }
 

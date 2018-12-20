@@ -12,7 +12,7 @@ import java.util.Properties;
  * Represent a configuration for a Mastermind game.
  */
 public class ConfigMastermind extends ConfigCombinationsGame {
-    private Logger m_logger = LogManager.getLogger(ConfigMastermind.class.getName());
+    private final Logger m_logger = LogManager.getLogger(ConfigMastermind.class.getName());
     private int m_numberOfAvailableNumerals;
 
     /**

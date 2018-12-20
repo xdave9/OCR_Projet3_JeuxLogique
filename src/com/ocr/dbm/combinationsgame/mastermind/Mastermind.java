@@ -10,21 +10,20 @@ import org.apache.logging.log4j.Logger;
  * Represent a Mastermind game, with player.
  */
 public class Mastermind extends CombinationsGame {
-    private static Logger m_logger = LogManager.getLogger(Mastermind.class.getName());
-    private ConfigMastermind m_config;
+    private static final Logger m_logger = LogManager.getLogger(Mastermind.class.getName());
+    private final ConfigMastermind m_config;
 
     /**
      * @param p_config A configuration for the Mastermind game
      * @param p_gameMode Game mode for this game
-     * @param p_developerMode true if the game should be in developer mode; false otherwise
      * @throws NullPointerException thrown when p_config is null
      */
-    public Mastermind(ConfigMastermind p_config, GameMode p_gameMode, boolean p_developerMode)
+    public Mastermind(ConfigMastermind p_config, GameMode p_gameMode)
             throws NullPointerException {
-        super(p_config, p_gameMode, p_developerMode);
+        super(p_config, p_gameMode);
 
         m_logger.traceEntry("Mastermind p_config:{} p_gameMode:{}   p_developerMode:{}",
-                p_config, p_gameMode, p_developerMode);
+                p_config, p_gameMode);
 
         m_config = p_config;
         m_logger.traceExit();
@@ -47,20 +46,29 @@ public class Mastermind extends CombinationsGame {
         }
 
         int wellPutDigitCount = 0;
-        int existingDigitCount = 0;
         StringBuilder alreadyUsedDigits = new StringBuilder();
 
         for (int i = 0; i < p_offensiveComb.length(); i++) {
             char c = p_offensiveComb.charAt(i);
 
-            if (!alreadyUsedDigits.toString().contains(Character.toString(c))) {
-                if (p_defensiveComb.charAt(i) == c) {
-                    wellPutDigitCount++;
-                    alreadyUsedDigits.append(c);
-                } else if (p_defensiveComb.contains(Character.toString(c))) {
-                    existingDigitCount++;
+            if (p_defensiveComb.charAt(i) == c) {
+                wellPutDigitCount++;
+
+                if (!alreadyUsedDigits.toString().contains(Character.toString(c))) {
                     alreadyUsedDigits.append(c);
                 }
+            }
+        }
+
+        int existingDigitCount = 0;
+
+        for (int i = 0; i < p_offensiveComb.length(); i++) {
+            char c = p_offensiveComb.charAt(i);
+
+            if (p_defensiveComb.contains(Character.toString(c))
+                    && !alreadyUsedDigits.toString().contains(Character.toString(c))) {
+                existingDigitCount++;
+                alreadyUsedDigits.append(c);
             }
         }
 

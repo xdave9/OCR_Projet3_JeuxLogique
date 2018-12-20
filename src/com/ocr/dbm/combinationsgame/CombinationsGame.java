@@ -8,26 +8,23 @@ import org.apache.logging.log4j.Logger;
  * Abstract class representing a combination game
  */
 public abstract class CombinationsGame {
-    private Logger m_logger = LogManager.getLogger(CombinationsGame.class.getName());
+    private final Logger m_logger = LogManager.getLogger(CombinationsGame.class.getName());
 
     private boolean m_isFinished; // true if the game is finished
     private Player m_winner;
     private int m_playedTries; // Number of played tries in the actual game
-    private boolean m_developerMode; // Should this game be in developer mode ?
     private ConfigCombinationsGame m_config;
     private GameMode m_gameMode;
-
-    protected Player m_player1;
-    protected Player m_player2;
-    protected Player m_currentPlayer;
+    private Player m_player1;
+    private Player m_player2;
+    private Player m_currentPlayer;
 
     /**
      * @param p_config A configuration for the game
      * @param p_gameMode Game mode for this game
-     * @param p_developerMode true if the game should be in developer mode; false otherwise
      * @throws NullPointerException thrown when p_config is null
      */
-    public CombinationsGame(ConfigCombinationsGame p_config, GameMode p_gameMode, boolean p_developerMode)
+    protected CombinationsGame(ConfigCombinationsGame p_config, GameMode p_gameMode)
             throws NullPointerException {
         if (p_config == null) {
             String message = "p_config can't be null.";
@@ -36,7 +33,6 @@ public abstract class CombinationsGame {
         }
 
         m_config = p_config;
-        m_developerMode = p_developerMode;
         m_gameMode = p_gameMode;
 
         m_isFinished = true; // Set it to true because newGame(String) should be called to start a game
@@ -170,7 +166,7 @@ public abstract class CombinationsGame {
      * @param p_combination Combination to test
      * @return true if p_combination is valid; false otherwise
      */
-    public final boolean isValidCombination(String p_combination) {
+    protected final boolean isValidCombination(String p_combination) {
         return p_combination == null || p_combination.matches(getCombinationRegex());
     }
 
@@ -185,7 +181,7 @@ public abstract class CombinationsGame {
      * @return a hint to help finding the secret combination
      * @throws IllegalArgumentException thrown when p_combination is not a valid combination for this game
      */
-    public String getHint(String p_combination) throws IllegalArgumentException
+    private String getHint(String p_combination) throws IllegalArgumentException
     {
         m_logger.traceEntry("getHint p_combination:{}", p_combination);
         String defensiveCombination = getOtherPlayer().getCombination();
@@ -208,13 +204,6 @@ public abstract class CombinationsGame {
     private boolean isRightCombination(String p_combination) {
         String defensiveCombination = getOtherPlayer().getCombination();
         return defensiveCombination.equals(p_combination);
-    }
-
-    /**
-     * @return true if this game is in developer mode; false otherwise
-     */
-    public boolean isInDeveloperMode() {
-        return m_developerMode;
     }
 
     /**

@@ -3,19 +3,17 @@ package com.ocr.dbm.combinationsgame.mastermind;
 import com.ocr.dbm.GamesHandler;
 import com.ocr.dbm.combinationsgame.AICombinationsGame;
 import com.ocr.dbm.combinationsgame.CombinationsGame;
-import com.ocr.dbm.combinationsgame.SingleTry;
 import com.ocr.dbm.utility.Global;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class AIMastermind extends AICombinationsGame {
-    private Logger m_logger = LogManager.getLogger(AIMastermind.class.getName());
-    private ConfigMastermind m_config;
-    private List<String> m_allPossiblesCombs = new LinkedList<>(); // Will be a list of all possibles combinations
+    private final Logger m_logger = LogManager.getLogger(AIMastermind.class.getName());
+    private final ConfigMastermind m_config;
+    private final List<String> m_allPossiblesCombs = new LinkedList<>(); // Will be a list of all possibles combinations
 
     /**
      * @param p_config A Mastermind configuration
@@ -71,22 +69,20 @@ public class AIMastermind extends AICombinationsGame {
                 comb.append('1');
             }
 
-            m_previousTries.add(new SingleTry(comb.toString()));
+            m_previousTries.add(comb.toString());
             return comb.toString();
         }
-
-        m_previousTries.get(m_previousTries.size() - 1).setGivenHint(p_hint);
 
         String existingCount = getHintParser().parseHint(p_hint, Global.MASTERMIND_EXISTING_ATTR);
         String wellPutCount = getHintParser().parseHint(p_hint, Global.MASTERMIND_WELL_PUT_ATTR);
 
         eliminateBadPossibilitiesFromList(
-                m_previousTries.get(m_previousTries.size() - 1).getCombination(),
+                m_previousTries.get(m_previousTries.size() - 1),
                 existingCount, wellPutCount);
 
         comb.append(m_allPossiblesCombs.get(0));
 
-        m_previousTries.add(new SingleTry(comb.toString()));
+        m_previousTries.add(comb.toString());
         return m_logger.traceExit(comb.toString());
     }
 
@@ -141,19 +137,16 @@ public class AIMastermind extends AICombinationsGame {
 
         CombinationsGame game = GamesHandler.getInstance().getGame();
 
-        m_allPossiblesCombs.removeIf(new Predicate<String>() {
-            @Override
-            public boolean test(String p_s) {
-                if (p_s.equals(p_combination)) {
-                    return true;
-                }
-
-                String hint = game.getHint(p_s, p_combination);
-                String existingCount = getHintParser().parseHint(hint, Global.MASTERMIND_EXISTING_ATTR);
-                String wellPutCount = getHintParser().parseHint(hint, Global.MASTERMIND_WELL_PUT_ATTR);
-
-                return !existingCount.equals(p_existingCount) || !wellPutCount.equals(p_wellPutCount);
+        m_allPossiblesCombs.removeIf(p_s -> {
+            if (p_s.equals(p_combination)) {
+                return true;
             }
+
+            String hint = game.getHint(p_s, p_combination);
+            String existingCount = getHintParser().parseHint(hint, Global.MASTERMIND_EXISTING_ATTR);
+            String wellPutCount = getHintParser().parseHint(hint, Global.MASTERMIND_WELL_PUT_ATTR);
+
+            return !existingCount.equals(p_existingCount) || !wellPutCount.equals(p_wellPutCount);
         });
 
         m_logger.info("m_allPossiblesCombs.size():" + m_allPossiblesCombs.size());

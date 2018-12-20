@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AIHintParserMastermind implements AIHintParser {
-    private Logger m_logger = LogManager.getLogger(AIHintParserMastermind.class.getName());
+    private final Logger m_logger = LogManager.getLogger(AIHintParserMastermind.class.getName());
 
     @Override
     public String parseHint(String p_hint, String p_attribute) {

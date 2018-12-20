@@ -5,7 +5,7 @@ public enum GameMode {
     DEFENSIVE("Defensive"),
     DUEL("Duel");
 
-    private String m_name;
+    private final String m_name;
 
     GameMode(String p_name) {
         m_name = p_name;
