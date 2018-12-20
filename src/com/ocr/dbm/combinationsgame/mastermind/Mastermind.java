@@ -72,7 +72,7 @@ public class Mastermind extends CombinationsGame {
         StringBuilder hintBuilder = new StringBuilder();
 
         if (hasExistingDigits) {
-            hintBuilder.append(existingDigitCount + Global.MASTERMIND_EXISTING_ATTR);
+            hintBuilder.append(String.format("%d%s", existingDigitCount, Global.MASTERMIND_EXISTING_ATTR));
         }
 
         if (hasWellPutDigit) {
@@ -80,7 +80,7 @@ public class Mastermind extends CombinationsGame {
                 hintBuilder.append(", ");
             }
 
-            hintBuilder.append(wellPutDigitCount + Global.MASTERMIND_WELL_PUT_ATTR);
+            hintBuilder.append(String.format("%d%s", wellPutDigitCount, Global.MASTERMIND_WELL_PUT_ATTR));
         }
 
         return m_logger.traceExit(hintBuilder.toString());

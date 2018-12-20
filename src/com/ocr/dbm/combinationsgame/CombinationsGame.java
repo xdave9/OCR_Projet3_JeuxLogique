@@ -46,7 +46,7 @@ public abstract class CombinationsGame {
      * Start a new game
      * @param p_player1 Player one (will be the player who's starting, in duel mode)
      * @param p_player2 Player two
-     * @throws IllegalArgumentException thrown when a combination associated with a plyer is invalid for this game
+     * @throws IllegalArgumentException thrown when a combination associated with a player is invalid for this game
      * @throws NullPointerException thrown when p_player1 or p_player2 is null
      */
     public void newGame(Player p_player1, Player p_player2)
@@ -134,7 +134,7 @@ public abstract class CombinationsGame {
      * to the other player, or not, depending of game mode).
      */
     private void updateCurrentPlayer() {
-        m_logger.traceEntry("unpdateCurrentPlayer");
+        m_logger.traceEntry("updateCurrentPlayer");
 
         if (m_gameMode == GameMode.DUEL) {
             m_currentPlayer = getOtherPlayer();

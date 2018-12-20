@@ -132,17 +132,17 @@ public class GamesHandler {
 
         if (m_developerMode) {
             StringBuilder message = new StringBuilder();
-            message.append("Game mode : " + m_gameMode.toString() + Global.NEW_LINE);
+            message.append(String.format("Game mode : %s%s", m_gameMode.toString(), Global.NEW_LINE));
 
             Player player1 = m_game.getPlayer(0);
             Player player2 = m_game.getPlayer(1);
 
             if (player1.getCombination() != null) {
-                message.append(player1.getName() + " -> " + player1.getCombination() + Global.NEW_LINE);
+                message.append(String.format("%s -> %s%s", player1.getName(), player1.getCombination(), Global.NEW_LINE));
             }
 
             if (player2.getCombination() != null) {
-                message.append(player2.getName() + " -> " + player2.getCombination() + Global.NEW_LINE);
+                message.append(String.format("%s -> %s%s", player2.getName(), player2.getCombination(), Global.NEW_LINE));
             }
 
             System.out.println(message.toString());
@@ -159,7 +159,7 @@ public class GamesHandler {
 
         // Will be the previous hint given by a try, will be used by the AI :
         String previousHintForAI = null;
-        String previousComb = null; // Previous combination given by AI
+        String previousComb; // Previous combination given by AI
 
         // Running game here :
         while (m_game.getWinner() == null) {

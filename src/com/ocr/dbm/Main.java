@@ -15,7 +15,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        m_logger.traceEntry("main args:{}", args);
 	    m_args = args;
 
         String playerName = Global.readString("What's your name? ");

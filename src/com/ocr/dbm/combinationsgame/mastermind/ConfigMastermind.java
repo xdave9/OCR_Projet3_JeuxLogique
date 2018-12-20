@@ -34,7 +34,7 @@ public class ConfigMastermind extends ConfigCombinationsGame {
                     Global.MASTERMIND_MIN_AVAILABLE_NUMERALS, Global.MASTERMIND_MAX_AVAILABLE_NUMERALS);
 
             m_logger.error(message);
-            throw new InvalidParameterException(String.format(message));
+            throw new InvalidParameterException(message);
         }
 
         m_logger.info(String.format("m_numberOfAvailableNumerals after init:%d", m_numberOfAvailableNumerals));
