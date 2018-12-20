@@ -1,16 +1,17 @@
 package com.ocr.dbm.combinationsgame.mastermind;
 
 import com.ocr.dbm.combinationsgame.AIHintParser;
-import com.ocr.dbm.utility.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AIHintParserMastermind implements AIHintParser {
+    private Logger m_logger = LogManager.getLogger(AIHintParserMastermind.class.getName());
+
     @Override
     public String parseHint(String p_hint, String p_attribute) {
-        Logger.info("Stepping into AIHintParserMastermind.parseHint(String, String)");
-        Logger.info(String.format("p_hint :%s   p_attribute :%s", p_hint, p_attribute));
+        m_logger.traceEntry("parseHint p_hint:{}    p_attribute:{}", p_hint, p_attribute);
 
         if (p_attribute == null) {
-            Logger.info("p_attribute is null");
             return p_hint;
         }
 
@@ -21,8 +22,6 @@ public class AIHintParserMastermind implements AIHintParser {
             attrValue = Character.toString(p_hint.charAt(attrIndex));
         }
 
-        Logger.info(String.format("AIHintParserMastermind.parseHint(String, String) returning :%s", attrValue));
-
-        return attrValue;
+        return m_logger.traceExit(attrValue);
     }
 }

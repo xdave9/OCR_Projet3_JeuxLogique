@@ -8,5 +8,5 @@ public interface AIHintParser {
      *                    if null, return the given hint without parsing (maybe useless!)
      * @return The found attribute in the hint; or null if nothing was found
      */
-    public String parseHint(String p_hint, String p_attribute);
+    String parseHint(String p_hint, String p_attribute);
 }

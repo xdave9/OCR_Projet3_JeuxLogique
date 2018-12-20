@@ -1,12 +1,15 @@
 package com.ocr.dbm.combinationsgame;
 
 import com.ocr.dbm.GameMode;
-import com.ocr.dbm.utility.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Abstract class representing a combination game
  */
 public abstract class CombinationsGame {
+    private Logger m_logger = LogManager.getLogger(CombinationsGame.class.getName());
+
     private boolean m_isFinished; // true if the game is finished
     private Player m_winner;
     private int m_playedTries; // Number of played tries in the actual game
@@ -26,11 +29,9 @@ public abstract class CombinationsGame {
      */
     public CombinationsGame(ConfigCombinationsGame p_config, GameMode p_gameMode, boolean p_developerMode)
             throws NullPointerException {
-        Logger.info("Stepping into CombinationsGame constructor");
-
         if (p_config == null) {
             String message = "p_config can't be null.";
-            Logger.error(message);
+            m_logger.error(message);
             throw new NullPointerException(message);
         }
 
@@ -50,24 +51,23 @@ public abstract class CombinationsGame {
      */
     public void newGame(Player p_player1, Player p_player2)
             throws IllegalArgumentException {
-        Logger.info("Stepping into CombinationsGame.newGame(Player, Player)");
-        Logger.info(String.format("p_player1 :%s    p_player2 :%s", p_player1, p_player2));
+        m_logger.traceEntry("newGame p_player1:{}   p_player2:{}", p_player1, p_player2);
 
         if (p_player1 == null || p_player2 == null) {
             String message = "players can't be null";
-            Logger.error(message);
+            m_logger.error(message);
             throw new NullPointerException(message);
         }
 
         if (!isValidCombination(p_player1.getCombination())) {
             String message = "Player one combination is invalid for this game";
-            Logger.error(message);
+            m_logger.error(message);
             throw new IllegalArgumentException(message);
         }
 
         if (!isValidCombination(p_player2.getCombination())) {
             String message = "Player two combination is invalid for this game";
-            Logger.error(message);
+            m_logger.error(message);
             throw new IllegalArgumentException(message);
         }
 
@@ -78,7 +78,7 @@ public abstract class CombinationsGame {
         m_playedTries = 0;
 
         m_currentPlayer = (m_gameMode == GameMode.DUEL || m_gameMode == GameMode.OFFENSIVE) ? m_player1 : m_player2;
-        Logger.info(String.format("m_currentPlayer :%s", m_currentPlayer));
+        m_logger.info(String.format("m_currentPlayer :%s", m_currentPlayer));
     }
 
     /**
@@ -89,17 +89,17 @@ public abstract class CombinationsGame {
      * @return A hint for the offensive player, or a winner
      */
     public String playATry(String p_combination) throws IllegalArgumentException {
-        Logger.info("Stepping into CombinationsGame.playATry(String), p_combination :" + p_combination);
+        m_logger.traceEntry("playATry p_combination:{}", p_combination);
 
         if (p_combination.isEmpty()) {
             String message = "p_combination can't be empty";
-            Logger.error(message);
+            m_logger.error(message);
             throw new IllegalArgumentException(message);
         }
 
         if (m_isFinished) {
             String message = "Can't play a try when the game is finished or not started";
-            Logger.error(message);
+            m_logger.error(message);
             throw new GameNotRunningException(message);
         }
 
@@ -122,13 +122,11 @@ public abstract class CombinationsGame {
             hintOrWinner = m_winner.getName();
         }
         else {
-            updateCurrentPlayer();
             hintOrWinner = getHint(p_combination);
+            updateCurrentPlayer();
         }
 
-        Logger.info("Returning :" + hintOrWinner);
-
-        return hintOrWinner;
+        return m_logger.traceExit(hintOrWinner);
     }
 
     /**
@@ -136,14 +134,14 @@ public abstract class CombinationsGame {
      * to the other player, or not, depending of game mode).
      */
     private void updateCurrentPlayer() {
-        Logger.info("Stepping into CombinationsGame.updateCurrentPlayer()");
-        Logger.info(String.format("m_currentPlayer before update :%s", m_currentPlayer));
+        m_logger.traceEntry("unpdateCurrentPlayer");
 
         if (m_gameMode == GameMode.DUEL) {
             m_currentPlayer = getOtherPlayer();
         }
 
-        Logger.info(String.format("m_currentPlayer updated :%s", m_currentPlayer));
+        m_logger.info(String.format("m_currentPlayer updated:%s", m_currentPlayer));
+        m_logger.traceExit();
     }
 
     /**
@@ -160,7 +158,7 @@ public abstract class CombinationsGame {
     public Player getOtherPlayer() throws IllegalStateException {
         if (m_currentPlayer == null) {
             String message = "m_currentPlayer can't be null, maybe game as not been initialized yet ?";
-            Logger.error(message);
+            m_logger.error(message);
             throw new IllegalStateException(message);
         }
 
@@ -173,7 +171,7 @@ public abstract class CombinationsGame {
      * @return true if p_combination is valid; false otherwise
      */
     public final boolean isValidCombination(String p_combination) {
-        return p_combination.matches(getCombinationRegex());
+        return p_combination == null || p_combination.matches(getCombinationRegex());
     }
 
     /**
@@ -212,7 +210,7 @@ public abstract class CombinationsGame {
     public Player getPlayer(int p_index) throws IndexOutOfBoundsException {
         if (p_index != 0 && p_index != 1) {
             String message = "There's only two players... So index must be between 0 and 1. p_index :" + p_index;
-            Logger.error(message);
+            m_logger.error(message);
             throw new IndexOutOfBoundsException(message);
         }
 

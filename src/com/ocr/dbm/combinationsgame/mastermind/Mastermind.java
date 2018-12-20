@@ -3,12 +3,14 @@ package com.ocr.dbm.combinationsgame.mastermind;
 import com.ocr.dbm.GameMode;
 import com.ocr.dbm.combinationsgame.CombinationsGame;
 import com.ocr.dbm.utility.Global;
-import com.ocr.dbm.utility.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represent a Mastermind game, with player.
  */
 public class Mastermind extends CombinationsGame {
+    private Logger m_logger = LogManager.getLogger(Mastermind.class.getName());
     private ConfigMastermind m_config;
 
     /**
@@ -21,31 +23,26 @@ public class Mastermind extends CombinationsGame {
             throws NullPointerException {
         super(p_config, p_gameMode, p_developerMode);
 
-        Logger.info("Creating instance of Mastermind");
-        m_config = p_config;
+        m_logger.traceEntry("Mastermind p_config:{} p_gameMode:{}   p_developerMode:{}",
+                p_config, p_gameMode, p_developerMode);
 
-        Logger.info(
-                String.format(
-                        "p_config : %s %s p_gameMode : %s %s p_developerMode : %s",
-                        p_config, Global.NEW_LINE,
-                        p_gameMode, Global.NEW_LINE,
-                        p_developerMode));
+        m_config = p_config;
+        m_logger.traceExit();
     }
 
     @Override
     public String getHint(String p_combination) throws IllegalArgumentException {
-        Logger.info(String.format("Stepping into Mastermind.getHint(String), p_combination : %s", p_combination));
-
+        m_logger.traceEntry("getHint p_combination:{}", p_combination);
 
         if (!isValidCombination(p_combination)) {
             String message = "p_combination is invalid combination.";
-            Logger.error(message);
+            m_logger.error(message);
             throw new IllegalArgumentException(message);
         }
 
         String defensiveCombination = getOtherPlayer().getCombination();
 
-        Logger.info("Defensive combination :" + defensiveCombination);
+        m_logger.info("defensiveCombination:" + defensiveCombination);
 
         int wellPutDigitCount = 0;
         int existingDigitCount = 0;
@@ -67,7 +64,7 @@ public class Mastermind extends CombinationsGame {
 
         /**/
         if (!hasExistingDigits && !hasWellPutDigit) {
-            Logger.info("Doesn't have any existing or well put digit");
+            m_logger.info("Doesn't have any existing or well put digit");
             return "Nothing well put or existing.";
         }
         /**/
@@ -86,26 +83,17 @@ public class Mastermind extends CombinationsGame {
             hintBuilder.append(wellPutDigitCount + Global.MASTERMIND_WELL_PUT_ATTR);
         }
 
-        Logger.info(String.format("hasExistingDigits :%s", hasExistingDigits));
-        Logger.info(String.format("hasWellPutDigit :%s", hasWellPutDigit));
-        Logger.info(String.format("existingDigitCount :%d", existingDigitCount));
-        Logger.info(String.format("wellPutDigitCount :%d", wellPutDigitCount));
-
-        Logger.info("Mastermind.getHint(String) returning :" + hintBuilder.toString());
-
-        return hintBuilder.toString();
+        return m_logger.traceExit(hintBuilder.toString());
     }
 
     @Override
     public String getCombinationRegex() {
-        Logger.info("Stepping into Mastermind.getCombinationRegex()");
+        m_logger.traceEntry("getCombinationRegex");
 
         String regex = "^[0-" + Integer.toString(m_config.getNumberOfAvailableNumerals() - 1) + "]"
                 + "{" + m_config.getNumberOfSlots() + "}" + "$";
 
-        Logger.info("Mastermind.getCombinationRegex() returning :" + regex);
-
-        return regex;
+        return m_logger.traceExit(regex);
     }
 
 }

@@ -1,20 +1,22 @@
 package com.ocr.dbm.combinationsgame;
 
-import com.ocr.dbm.utility.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represent a player for a combination game
  */
 public class Player {
+    private Logger m_logger = LogManager.getLogger(Player.class.getName());
+
     private String m_name;
     private String m_combination; // Defensive combination; can be null if this is only an offensive player
 
     public Player(String p_name, String p_combination) {
-        Logger.info("Creating instance of Player");
-        Logger.info(String.format("p_name :%s   p_combination :%s", p_name, p_combination));
-
+        m_logger.traceEntry("Player p_name:{}   p_combination:{}", p_name, p_combination);
         m_name = p_name;
         m_combination = p_combination;
+        m_logger.traceExit();
     }
 
     public String getName() {

@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public final class Global {
+
     private Global() {}
 
     /**
@@ -94,6 +95,8 @@ public final class Global {
     public static String readString(String p_question) {
         Scanner sc = new Scanner(System.in);
         String response = null;
+
+        System.out.print(p_question);
 
         try {
             response = sc.nextLine();

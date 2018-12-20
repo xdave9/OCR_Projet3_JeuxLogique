@@ -12,15 +12,18 @@ import com.ocr.dbm.combinationsgame.simplecombinationsgame.AISimpleCombinationsG
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.ConfigSimpleCombinationsGame;
 import com.ocr.dbm.combinationsgame.simplecombinationsgame.SimpleCombinationGame;
 import com.ocr.dbm.utility.Global;
-import com.ocr.dbm.utility.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Singleton class for combination games handling.
  */
 public class GamesHandler {
+    private Logger m_logger = LogManager.getLogger(GamesHandler.class.getName());
+
     private static GamesHandler m_instance = new GamesHandler();
     private GamesHandler() {
-        Logger.info("Creating GameHandler Singleton");
+        m_logger.traceEntry("GamesHandler");
 
         m_developerMode = false;
 
@@ -31,7 +34,8 @@ public class GamesHandler {
             }
         }
 
-        Logger.info(String.format("m_developerMode set to :%s", m_developerMode));
+        m_logger.info(String.format("m_developerMode:%s", m_developerMode));
+        m_logger.traceExit();
     }
 
     private CombinationsGame m_game;
@@ -47,14 +51,13 @@ public class GamesHandler {
      * Ask to the player which game he want to play, game mode is also asked
      */
     public void askWhichGame() {
-        Logger.info("Stepping into GamesHandler.askWhichGame()");
+        m_logger.traceEntry("askWhichGame");
 
         System.out.println("What you want to play ?" + Global.NEW_LINE
                             + "1 - A Simple Combination Game" + Global.NEW_LINE
                             + "2 - Mastermind");
 
         int gameIndex = Global.readInt(" --> ", 1, 2);
-        Logger.info("gameIndex :" + gameIndex);
 
         switch (gameIndex) {
             case 1:
@@ -69,7 +72,7 @@ public class GamesHandler {
                 break;
         }
 
-        Logger.info("Stepping out of GamesHandler.askWhichGame()");
+        m_logger.traceExit();
     }
 
     /**
@@ -77,7 +80,7 @@ public class GamesHandler {
      * @return Selected game mode
      */
     private GameMode askGameMode() {
-        Logger.info("Stepping into GameHandler.askGameMode()");
+        m_logger.traceEntry("askGameMode");
 
         System.out.println("Choose a mode : ");
 
@@ -86,12 +89,9 @@ public class GamesHandler {
         }
 
         int gameModeIndex = -1 + Global.readInt(" --> ", 1, GameMode.values().length);
-        Logger.info("gameModeIndex :" + gameModeIndex);
-
         m_gameMode = GameMode.values()[gameModeIndex];
 
-        Logger.info(String.format("GameHandler.askGameMode() returning :%s", m_gameMode));
-        return m_gameMode;
+        return m_logger.traceExit(m_gameMode);
     }
 
     /**
@@ -101,15 +101,16 @@ public class GamesHandler {
      * normally be called first)
      */
     public void startNewGame(String p_humanPlayerName) throws IllegalStateException {
-        Logger.info("Stepping into GameHandler.startNewGame(String)");
-        Logger.info("p_humanPlayerName :" + p_humanPlayerName);
+        m_logger.traceEntry("startNewGame p_humanPlayerName:{}", p_humanPlayerName);
 
         if (m_game == null || m_gameMode == null) {
             String message = "Game is not initialized properly." + Global.NEW_LINE
                     + " askWhichGame() and askGameMode() should be called first.";
-            Logger.error(message);
+            m_logger.error(message);
             throw new IllegalStateException(message);
         }
+
+        m_ai.clearPreviousTries();
 
         switch (m_gameMode) {
             case OFFENSIVE:
@@ -144,18 +145,17 @@ public class GamesHandler {
                 message.append(player2.getName() + " -> " + player2.getCombination() + Global.NEW_LINE);
             }
 
-            Logger.info("Developer mode message :" + message.toString());
             System.out.println(message.toString());
         }
 
-        Logger.info("Stepping out of GameHandler.startNewGame(String)");
+        m_logger.traceExit();
     }
 
     /**
      * Run the selected game.
      */
     public void runGame() {
-        Logger.info("Stepping into GameHandler.runGame()");
+        m_logger.traceEntry("runGame");
 
         // Will be the previous hint given by a try, will be used by the AI :
         String previousHintForAI = null;
@@ -163,48 +163,55 @@ public class GamesHandler {
 
         // Running game here :
         while (m_game.getWinner() == null) {
-            Logger.info("Starting a new iteration of the main loop.");
+            m_logger.info("Starting a new iteration of the main loop.");
 
             String hint;
             String offensiveComb;
             String defensiveComb = m_game.getOtherPlayer().getCombination();
+            boolean currentPlayerIsAI = m_game.getCurrentPlayer().getName().equals("AI");
 
-            Logger.info("defensiveComb :" + defensiveComb);
+            m_logger.info("defensiveComb:" + defensiveComb);
 
-            if (m_game.getCurrentPlayer().getName().equals("AI")) {
-                Logger.info("Current player is AI");
+            if (currentPlayerIsAI) {
+                m_logger.info("Current player is AI");
 
-                offensiveComb = m_ai.generateOffensiveCombination(previousComb, previousHintForAI);
+                offensiveComb = m_ai.generateOffensiveCombination(previousHintForAI);
                 hint = m_game.playATry(offensiveComb);
                 previousHintForAI = hint;
                 previousComb = offensiveComb;
 
-                Logger.info(String.format("previousHintForAI :%s", previousHintForAI));
-                Logger.info(String.format("previousComb :%s", previousComb));
+                m_logger.info(String.format("previousHintForAI:%s", previousHintForAI));
+                m_logger.info(String.format("previousComb:%s", previousComb));
             }
             else {
-                Logger.info("Current player is human.");
+                m_logger.info("Current player is human.");
 
                 offensiveComb = Global.readString("Combination: ", m_game.getCombinationRegex());
                 hint = m_game.playATry(offensiveComb);
             }
 
-            Logger.info(String.format("offensiveComb :%s", offensiveComb));
-            Logger.info(String.format("hint :%s", hint));
+            m_logger.info(String.format("offensiveComb:%s", offensiveComb));
+            m_logger.info(String.format("hint:%s", hint));
 
-            String gameStatus;
+            Player winner = m_game.getWinner();
 
-            if (m_game.getWinner() == null) {
-                gameStatus = "Proposition : " + offensiveComb + " -> Response : " + hint;
-            }
-            else {
-                gameStatus = "Winner is " + hint + "!" + Global.NEW_LINE;
+            String response = (winner == null) ?
+                    hint : "Winner is " + hint + "!" + Global.NEW_LINE;
+
+            String gameStatus = String.format("%s Proposition : %s -> Response : %s",
+                                        m_game.getCurrentPlayer().getName(),
+                                        offensiveComb,
+                                        response);
+
+            if (winner != null && !offensiveComb.equals(defensiveComb)) {
                 gameStatus += "Solution : " + defensiveComb;
             }
 
-            Logger.info(String.format("gameStatus :%s", gameStatus));
             System.out.println(gameStatus);
-            Global.waitForNewLine();
+
+            if (currentPlayerIsAI) {
+                Global.waitForNewLine();
+            }
         }
     }
 }

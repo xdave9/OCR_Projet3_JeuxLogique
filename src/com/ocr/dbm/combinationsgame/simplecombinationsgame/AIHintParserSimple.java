@@ -1,19 +1,21 @@
 package com.ocr.dbm.combinationsgame.simplecombinationsgame;
 
 import com.ocr.dbm.combinationsgame.AIHintParser;
-import com.ocr.dbm.utility.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AIHintParserSimple implements AIHintParser {
+    private Logger m_logger = LogManager.getLogger(AIHintParserSimple.class.getName());
+
     @Override
     public String parseHint(String p_hint, String p_attribute) {
-        Logger.info("Stepping into AIHintParserSimple.parseHint(String, String)");
+        m_logger.traceEntry("parseHint p_hint:{}    p_attribute:{}", p_hint, p_attribute);
 
         if (p_attribute == null) {
-            Logger.info("p_attribute is null");
             return p_hint;
         }
 
-        Logger.info("AIHintParserSimple.parseHint(String, String) returning :null");
+        m_logger.traceExit();
         return null;
     }
 }

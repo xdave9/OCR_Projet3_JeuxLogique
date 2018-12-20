@@ -1,6 +1,7 @@
 package com.ocr.dbm.combinationsgame;
 
-import com.ocr.dbm.utility.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.util.Properties;
  * Represent a configuration for a combinations game.
  */
 public abstract class ConfigCombinationsGame {
+    private Logger m_logger = LogManager.getLogger(ConfigCombinationsGame.class.getName());
+
     private int m_maxPossibleTries; // Maximum of possible tries before the game end
     private int m_numberOfSlots; // Number of slots for the combination
 
@@ -37,14 +40,14 @@ public abstract class ConfigCombinationsGame {
      * Read configuration file (config.properties) to init configurations
      */
     private void readConfigFile() {
-        Logger.info("Stepping into ConfigCombinationsGame.readConfigFile()");
+        m_logger.traceEntry("readConfigFile");
 
         Properties config = new Properties();
         InputStream inputFile = null;
 
         try {
 
-            inputFile = new FileInputStream("config.properties");
+            inputFile = new FileInputStream("./resources/config.properties");
             config.load(inputFile);
 
             m_numberOfSlots = Integer.parseInt(config.getProperty("number_of_slots"));
@@ -52,24 +55,24 @@ public abstract class ConfigCombinationsGame {
             initAdditionalProperties(config);
         }
         catch (IOException e) {
-            Logger.error(e.getMessage());
+            m_logger.error(e.getMessage());
             e.printStackTrace();
         }
         catch (NumberFormatException e) {
-            Logger.error(e.getMessage());
+            m_logger.error(e.getMessage());
         }
         finally {
             if (inputFile != null) {
                 try {
                     inputFile.close();
                 } catch (IOException e) {
-                    Logger.error(e.getMessage());
+                    m_logger.error(e.getMessage());
                     e.printStackTrace();
                 }
             }
         }
 
-        Logger.info("Stepping out of ConfigCombinationsGame.readConfigFile()");
+        m_logger.traceExit();
     }
 
     /**
