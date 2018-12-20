@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
  * Represent a Mastermind game, with player.
  */
 public class Mastermind extends CombinationsGame {
-    private Logger m_logger = LogManager.getLogger(Mastermind.class.getName());
+    private static Logger m_logger = LogManager.getLogger(Mastermind.class.getName());
     private ConfigMastermind m_config;
 
     /**
@@ -31,41 +31,45 @@ public class Mastermind extends CombinationsGame {
     }
 
     @Override
-    public String getHint(String p_combination) throws IllegalArgumentException {
-        m_logger.traceEntry("getHint p_combination:{}", p_combination);
+    public String getHint(String p_defensiveComb, String p_offensiveComb) throws IllegalArgumentException {
+        m_logger.traceEntry("getHint p_defensiveComb:{} p_offensiveComb:{}", p_defensiveComb, p_offensiveComb);
 
-        if (!isValidCombination(p_combination)) {
-            String message = "p_combination is invalid combination.";
+        if (!isValidCombination(p_defensiveComb)) {
+            String message = "p_defensiveComb is invalid combination.";
             m_logger.error(message);
             throw new IllegalArgumentException(message);
         }
 
-        String defensiveCombination = getOtherPlayer().getCombination();
-
-        m_logger.info("defensiveCombination:" + defensiveCombination);
+        if (!isValidCombination(p_offensiveComb)) {
+            String message = "p_offensiveComb is invalid combination.";
+            m_logger.error(message);
+            throw new IllegalArgumentException(message);
+        }
 
         int wellPutDigitCount = 0;
         int existingDigitCount = 0;
+        StringBuilder alreadyUsedDigits = new StringBuilder();
 
-        for (int i = 0; i < p_combination.length(); i++) {
-            if (defensiveCombination.charAt(i) == p_combination.charAt(i)) {
-                wellPutDigitCount++;
-            }
+        for (int i = 0; i < p_offensiveComb.length(); i++) {
+            char c = p_offensiveComb.charAt(i);
 
-            if (defensiveCombination.contains(Character.toString(p_combination.charAt(i)))) {
-                existingDigitCount++;
+            if (!alreadyUsedDigits.toString().contains(Character.toString(c))) {
+                if (p_defensiveComb.charAt(i) == c) {
+                    wellPutDigitCount++;
+                    alreadyUsedDigits.append(c);
+                } else if (p_defensiveComb.contains(Character.toString(c))) {
+                    existingDigitCount++;
+                    alreadyUsedDigits.append(c);
+                }
             }
         }
-
-        existingDigitCount -= wellPutDigitCount;
 
         boolean hasExistingDigits = existingDigitCount > 0;
         boolean hasWellPutDigit = wellPutDigitCount > 0;
 
         /**/
         if (!hasExistingDigits && !hasWellPutDigit) {
-            m_logger.info("Doesn't have any existing or well put digit");
-            return "Nothing well put or existing.";
+            return m_logger.traceExit("Nothing well put or existing.");
         }
         /**/
 

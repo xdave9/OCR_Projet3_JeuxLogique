@@ -25,7 +25,7 @@ public class ConfigMastermind extends ConfigCombinationsGame {
 
     @Override
     protected void initAdditionalProperties(Properties p_configProperties) throws InvalidParameterException {
-        m_logger.traceEntry("initAdditionalProperties p_configProperties:{}", p_configProperties);
+        //m_logger.traceEntry("initAdditionalProperties p_configProperties:{}", p_configProperties);
 
         m_numberOfAvailableNumerals = Integer.parseInt(p_configProperties.getProperty("number_of_available_numerals"));
 
@@ -37,6 +37,6 @@ public class ConfigMastermind extends ConfigCombinationsGame {
             throw new InvalidParameterException(message);
         }
 
-        m_logger.info(String.format("m_numberOfAvailableNumerals after init:%d", m_numberOfAvailableNumerals));
+        //m_logger.info(String.format("m_numberOfAvailableNumerals after init:%s", m_numberOfAvailableNumerals));
     }
 }

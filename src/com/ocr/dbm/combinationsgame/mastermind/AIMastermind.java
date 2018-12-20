@@ -1,14 +1,21 @@
 package com.ocr.dbm.combinationsgame.mastermind;
 
+import com.ocr.dbm.GamesHandler;
 import com.ocr.dbm.combinationsgame.AICombinationsGame;
+import com.ocr.dbm.combinationsgame.CombinationsGame;
 import com.ocr.dbm.combinationsgame.SingleTry;
 import com.ocr.dbm.utility.Global;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Predicate;
+
 public class AIMastermind extends AICombinationsGame {
     private Logger m_logger = LogManager.getLogger(AIMastermind.class.getName());
     private ConfigMastermind m_config;
+    private List<String> m_allPossiblesCombs = new LinkedList<>(); // Will be a list of all possibles combinations
 
     /**
      * @param p_config A Mastermind configuration
@@ -18,7 +25,10 @@ public class AIMastermind extends AICombinationsGame {
         super(p_hintParser);
 
         m_logger.traceEntry("AIMastermind p_config:{}   p_hintParse:{}", p_config, p_hintParser);
+
         m_config = p_config;
+        populateAllPossibleCombsList();
+
         m_logger.traceExit();
     }
 
@@ -39,25 +49,121 @@ public class AIMastermind extends AICombinationsGame {
     public String generateOffensiveCombination(String p_hint) {
         m_logger.traceEntry("generateOffensiveCombination p_hint:{}", p_hint);
 
+        /*
+            This algorithm is derived from Five-guess algorithm by Donald Knuth
+            https://en.wikipedia.org/wiki/Mastermind_(board_game)#Algorithms
+         */
+
+        StringBuilder comb = new StringBuilder(m_config.getNumberOfSlots());
+
         if (m_previousTries.isEmpty()) {
-            String comb = generateDefensiveCombination(); // A random combination...
-            m_previousTries.add(new SingleTry(comb));
-            return comb;
+            int halfOfNumberOfSlots = m_config.getNumberOfSlots() / 2;
+
+            for (int i = 0; i < halfOfNumberOfSlots; i++) {
+                comb.append('0');
+            }
+
+            for (int i = 0; i < halfOfNumberOfSlots; i++) {
+                comb.append('1');
+            }
+
+            if (halfOfNumberOfSlots * 2 != m_config.getNumberOfSlots()) {
+                comb.append('1');
+            }
+
+            m_previousTries.add(new SingleTry(comb.toString()));
+            return comb.toString();
         }
 
         m_previousTries.get(m_previousTries.size() - 1).setGivenHint(p_hint);
 
-        int existingCount = Integer.parseInt(getHintParser().parseHint(p_hint, Global.MASTERMIND_EXISTING_ATTR));
-        int wellPutCount = Integer.parseInt(getHintParser().parseHint(p_hint, Global.MASTERMIND_WELL_PUT_ATTR));
+        String existingCount = getHintParser().parseHint(p_hint, Global.MASTERMIND_EXISTING_ATTR);
+        String wellPutCount = getHintParser().parseHint(p_hint, Global.MASTERMIND_WELL_PUT_ATTR);
 
-        StringBuilder comb = new StringBuilder(m_config.getNumberOfSlots());
+        eliminateBadPossibilitiesFromList(
+                m_previousTries.get(m_previousTries.size() - 1).getCombination(),
+                existingCount, wellPutCount);
 
-        // TODO
+        comb.append(m_allPossiblesCombs.get(0));
 
         m_previousTries.add(new SingleTry(comb.toString()));
+        return m_logger.traceExit(comb.toString());
+    }
 
+    /**
+     * Populate the list of all possible combinations
+     */
+    private void populateAllPossibleCombsList() {
+        m_logger.traceEntry("populateAllPossibleCombsList");
 
-        // TODO ************** FOR TESTING ONLY :
-        return m_logger.traceExit(generateDefensiveCombination());
+        int numberOfPossibleCombs = (int)Math.pow(m_config.getNumberOfAvailableNumerals(), m_config.getNumberOfSlots());
+
+        for (int i = 0; m_allPossiblesCombs.size() < numberOfPossibleCombs; i++) {
+            StringBuilder possibleComb = new StringBuilder(m_config.getNumberOfSlots());
+
+            String s = String.valueOf(i);
+
+            boolean mustSkip = false;
+
+            for (int j = 0; j < s.length(); j++) {
+                if (Character.getNumericValue(s.charAt(j)) >= m_config.getNumberOfAvailableNumerals()) {
+                    mustSkip = true;
+                    break;
+                }
+            }
+
+            /**/
+            if (mustSkip) continue;
+            /**/
+
+            for (int j = 0; j < m_config.getNumberOfSlots() - s.length(); j++) {
+                possibleComb.append('0');
+            }
+
+            possibleComb.append(s);
+            m_allPossiblesCombs.add(possibleComb.toString());
+        }
+
+        m_logger.info("m_allPossiblesCombs.size():" + m_allPossiblesCombs.size());
+        m_logger.traceExit();
+    }
+
+    /**
+     * Eliminate from m_allPossiblesCombs all combinations that
+     * doesn't fit the existing count and well count for a given combination.
+     * @param p_combination Combination used to eliminate non-matching response.
+     * @param p_existingCount Existing digit count obtained by a response
+     * @param p_wellPutCount Well put digit count obtained by a response
+     */
+    private void eliminateBadPossibilitiesFromList(String p_combination, String p_existingCount, String p_wellPutCount) {
+        m_logger.traceEntry("eliminateBadPossibilitiesFromList p_combination:{} p_existingCount:{}  p_sellPutCount:{}",
+                p_combination, p_existingCount, p_wellPutCount);
+
+        CombinationsGame game = GamesHandler.getInstance().getGame();
+
+        m_allPossiblesCombs.removeIf(new Predicate<String>() {
+            @Override
+            public boolean test(String p_s) {
+                if (p_s.equals(p_combination)) {
+                    return true;
+                }
+
+                String hint = game.getHint(p_s, p_combination);
+                String existingCount = getHintParser().parseHint(hint, Global.MASTERMIND_EXISTING_ATTR);
+                String wellPutCount = getHintParser().parseHint(hint, Global.MASTERMIND_WELL_PUT_ATTR);
+
+                return !existingCount.equals(p_existingCount) || !wellPutCount.equals(p_wellPutCount);
+            }
+        });
+
+        m_logger.info("m_allPossiblesCombs.size():" + m_allPossiblesCombs.size());
+        m_logger.traceExit();
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        m_allPossiblesCombs.clear();
+        populateAllPossibleCombsList();
     }
 }

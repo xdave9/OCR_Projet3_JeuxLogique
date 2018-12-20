@@ -15,7 +15,7 @@ public class AIHintParserMastermind implements AIHintParser {
             return p_hint;
         }
 
-        String attrValue = null;
+        String attrValue = "";
         int attrIndex = p_hint.indexOf(p_attribute) - 1;
 
         if (attrIndex >= 0) {

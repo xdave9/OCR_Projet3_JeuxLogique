@@ -27,25 +27,27 @@ public class SimpleCombinationGame extends CombinationsGame {
     }
 
     @Override
-    public String getHint(String p_combination) throws IllegalArgumentException {
-        m_logger.traceEntry("getHint p_combination:{}", p_combination);
+    public String getHint(String p_defensiveComb, String p_offensiveComb) throws IllegalArgumentException {
+        m_logger.traceEntry("getHint p_defensiveComb:{} p_offensiveComb:{}", p_defensiveComb, p_offensiveComb);
 
-        if (!isValidCombination(p_combination)) {
-            String message = "p_combination is invalid combination.";
+        if (!isValidCombination(p_defensiveComb)) {
+            String message = "p_defensiveComb is invalid combination.";
             m_logger.error(message);
             throw new IllegalArgumentException(message);
         }
 
-        String defensiveCombination = getOtherPlayer().getCombination();
+        if (!isValidCombination(p_offensiveComb)) {
+            String message = "p_offensiveComb is invalid combination.";
+            m_logger.error(message);
+            throw new IllegalArgumentException(message);
+        }
 
-        m_logger.info("defensiveCombination:" + defensiveCombination);
+        StringBuilder hintBuilder = new StringBuilder(p_offensiveComb.length());
 
-        StringBuilder hintBuilder = new StringBuilder(p_combination.length());
-
-        for (int i = 0; i < p_combination.length(); i++) {
+        for (int i = 0; i < p_offensiveComb.length(); i++) {
             // One digit in the combination of the defensive player, and the offensive player :
-            int digitDefensiveComb = Character.getNumericValue(defensiveCombination.charAt(i));
-            int digitOffensiveComb = Character.getNumericValue(p_combination.charAt(i));
+            int digitDefensiveComb = Character.getNumericValue(p_defensiveComb.charAt(i));
+            int digitOffensiveComb = Character.getNumericValue(p_offensiveComb.charAt(i));
 
             hintBuilder.append(
                     digitDefensiveComb > digitOffensiveComb ? "+"

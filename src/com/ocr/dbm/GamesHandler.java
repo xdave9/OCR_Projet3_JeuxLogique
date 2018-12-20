@@ -110,7 +110,7 @@ public class GamesHandler {
             throw new IllegalStateException(message);
         }
 
-        m_ai.clearPreviousTries();
+        m_ai.clear();
 
         switch (m_gameMode) {
             case OFFENSIVE:
@@ -213,5 +213,12 @@ public class GamesHandler {
                 Global.waitForNewLine();
             }
         }
+    }
+
+    /**
+     * @return The game associated.
+     */
+    public CombinationsGame getGame() {
+        return m_game;
     }
 }

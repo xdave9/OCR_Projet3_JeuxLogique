@@ -21,9 +21,9 @@ public abstract class AICombinationsGame {
     }
 
     /**
-     * Clear the previous tries registered. Should be called when starting a new game.
+     * Clear memory of ai. Should be called when starting a new game.
      */
-    public void clearPreviousTries() {
+    public void clear() {
         m_previousTries.clear();
     }
 

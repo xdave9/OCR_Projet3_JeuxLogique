@@ -185,7 +185,21 @@ public abstract class CombinationsGame {
      * @return a hint to help finding the secret combination
      * @throws IllegalArgumentException thrown when p_combination is not a valid combination for this game
      */
-    public abstract String getHint(String p_combination) throws IllegalArgumentException;
+    public String getHint(String p_combination) throws IllegalArgumentException
+    {
+        m_logger.traceEntry("getHint p_combination:{}", p_combination);
+        String defensiveCombination = getOtherPlayer().getCombination();
+        return m_logger.traceExit(getHint(defensiveCombination, p_combination));
+    }
+
+    /**
+     * Return a hint, based on two given combinations, to help finding the secret combination of the defensive player
+     * @param p_defensiveComb The defensive combination
+     * @param p_offensiveComb The offensive combination
+     * @return a hint to help finding the secret combination
+     * @throws IllegalArgumentException thrown when a combination is not a valid combination for this game
+     */
+    public abstract String getHint(String p_defensiveComb, String p_offensiveComb) throws IllegalArgumentException;
 
     /**
      * @param p_combination Combination to test

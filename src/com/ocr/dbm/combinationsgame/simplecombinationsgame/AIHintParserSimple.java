@@ -15,7 +15,6 @@ public class AIHintParserSimple implements AIHintParser {
             return p_hint;
         }
 
-        m_logger.traceExit();
-        return null;
+        return m_logger.traceExit("");
     }
 }

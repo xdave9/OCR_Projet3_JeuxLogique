@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // TODO : Implement a formatter to build hint and that will hold the hint parser to have all at the same place
+// TODO : Check existing count and well put count in mastermind
 
 public class Main {
     private static Logger m_logger = LogManager.getLogger(Main.class.getName());
